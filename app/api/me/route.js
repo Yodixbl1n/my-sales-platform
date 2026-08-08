@@ -1,22 +1,25 @@
 import { NextResponse } from 'next/server';
-import { verifyToken } from '../../../lib/jwt';
+import jwt from 'jsonwebtoken';
+import { cookies } from 'next/headers';
 
-function parseCookies(cookieHeader) {
-  const cookies = {};
-  if (cookieHeader) {
-    cookieHeader.split(';').forEach(cookie => {
-      const [name, ...rest] = cookie.trim().split('=');
-      cookies[name] = rest.join('=');
-    });
+export async function GET() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  return cookies;
-}
 
-export async function GET(req) {
-  const cookies = parseCookies(req.headers.get('cookie') || '');
-  const token = cookies.token;
-  if (!token) return NextResponse.json({ ok: false }, { status: 401 });
-  const user = verifyToken(token);
-  if (!user) return NextResponse.json({ ok: false }, { status: 401 });
-  return NextResponse.json({ ok: true, user });
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    return NextResponse.json({ 
+      user: { 
+        id: payload.id, 
+        email: payload.email,
+        name: payload.name || 'User'
+      } 
+    });
+  } catch (e) {
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+  }
 }

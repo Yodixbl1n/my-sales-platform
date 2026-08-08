@@ -1,105 +1,261 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function Home() {
-  const [user, setUser] = useState(null);
-  const [showCodeForm, setShowCodeForm] = useState(false);
-  const [message, setMessage] = useState('');
-  const botUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME || 'npavlovvsale_bot';
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch('/api/me');
-        if (res.ok) {
-          const j = await res.json();
-          setUser(j.user);
-          setShowCodeForm(true);
-        }
-      } catch (e) {
-        console.error('Auth check failed:', e);
-      }
-    })();
-
-    if (!user) {
-      const script = document.createElement('script');
-      script.src = 'https://telegram.org/js/telegram-widget.js?22';
-      script.async = true;
-      script.setAttribute('data-telegram-login', botUsername);
-      script.setAttribute('data-size', 'large');
-      script.setAttribute('data-radius', '12');
-      script.setAttribute('data-auth-url', 'https://my-sales-platform.vercel.app/api/auth');
-      script.setAttribute('data-request-access', 'write');
-      
-      const container = document.getElementById('tg-widget');
-      if (container) {
-        container.innerHTML = '';
-        container.appendChild(script);
-      }
-    }
-  }, [user]);
-
-  return (
-    <div className="w-full max-w-lg mx-auto p-4">
-      <div className="bg-white/10 backdrop-blur rounded-2xl p-8 shadow-lg text-center text-white">
-        <h1 className="text-3xl font-semibold mb-6">🔒 Закрытый доступ</h1>
-        <p className="mb-6 text-white/80">Вход только для участников сообщества</p>
-
-        {!user && (
-          <div className="flex flex-col items-center gap-6">
-            <div id="tg-widget" />
-            <p className="text-sm text-white/80">Войдите через Telegram, затем введите инвайт-код.</p>
-          </div>
-        )}
-
-        {user && !showCodeForm && (
-          <div>
-            <p className="mb-4">Вы вошли как <strong>{user.first_name}</strong></p>
-            <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded" onClick={() => setShowCodeForm(true)}>Ввести инвайт-код</button>
-          </div>
-        )}
-
-        {showCodeForm && <InviteForm setMessage={setMessage} />}
-
-        {message && <p className="mt-4 text-sm text-red-200">{message}</p>}
-      </div>
-    </div>
-  );
-}
-
-function InviteForm({ setMessage }) {
+  const [step, setStep] = useState('code');
   const [code, setCode] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
 
-  async function submit(e) {
+  async function verifyCode(e) {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-    const res = await fetch('/api/verify-code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code })
-    });
-    const j = await res.json();
-    setLoading(false);
-    if (j.success) {
-      location.href = '/dashboard';
-    } else {
-      setMessage(j.message || 'Ошибка');
+    setMessageType('');
+
+    try {
+      const res = await fetch('/api/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code.toUpperCase().trim() })
+      });
+      const j = await res.json();
+      
+      if (j.success) {
+        setMessageType('success');
+        setMessage('Код подтверждён! Теперь создайте аккаунт.');
+        setStep('register');
+      } else {
+        setMessageType('error');
+        setMessage(j.message || 'Неверный код');
+      }
+    } catch (err) {
+      setMessageType('error');
+      setMessage('Ошибка сервера. Попробуйте позже.');
     }
+    
+    setLoading(false);
+  }
+
+  async function register(e) {
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
+    setMessageType('');
+
+    if (password.length < 6) {
+      setMessageType('error');
+      setMessage('Пароль должен быть минимум 6 символов');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: email.trim(), 
+          password: password,
+          name: name.trim(),
+          inviteCode: code.toUpperCase().trim()
+        })
+      });
+      const j = await res.json();
+      
+      if (j.success) {
+        setMessageType('success');
+        setMessage('Аккаунт создан! Перенаправляю...');
+        setTimeout(() => {
+          location.href = '/dashboard';
+        }, 1000);
+      } else {
+        setMessageType('error');
+        setMessage(j.message || 'Ошибка регистрации');
+      }
+    } catch (err) {
+      setMessageType('error');
+      setMessage('Ошибка сервера. Попробуйте позже.');
+    }
+    
+    setLoading(false);
+  }
+
+  async function login(e) {
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
+    setMessageType('');
+
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), password: password })
+      });
+      const j = await res.json();
+      
+      if (j.success) {
+        setMessageType('success');
+        setMessage('Вход выполнен! Перенаправляю...');
+        setTimeout(() => {
+          location.href = '/dashboard';
+        }, 1000);
+      } else {
+        setMessageType('error');
+        setMessage(j.message || 'Неверный email или пароль');
+      }
+    } catch (err) {
+      setMessageType('error');
+      setMessage('Ошибка сервера. Попробуйте позже.');
+    }
+    
+    setLoading(false);
   }
 
   return (
-    <form onSubmit={submit} className="mt-6 flex flex-col gap-3">
-      <input
-        className="rounded-md p-3 bg-white/5 text-white placeholder-white/60 border border-white/10"
-        placeholder="Инвайт-код"
-        value={code}
-        onChange={e => setCode(e.target.value.toUpperCase())}
-      />
-      <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded" disabled={loading}>
-        {loading ? 'Проверяю...' : 'Подтвердить код'}
-      </button>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
+      <div className="w-full max-w-md">
+        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-10 shadow-2xl border border-white/10">
+          
+          <div className="text-center mb-8">
+            <div className="text-6xl mb-4">🔐</div>
+            <h1 className="text-3xl font-bold text-white mb-2">
+              {isLogin ? 'Вход' : step === 'code' ? 'Закрытый доступ' : 'Регистрация'}
+            </h1>
+            <p className="text-white/70">
+              {isLogin 
+                ? 'Введите email и пароль' 
+                : step === 'code' 
+                  ? 'Введите инвайт-код для доступа' 
+                  : 'Создайте аккаунт'}
+            </p>
+          </div>
+
+          {step === 'code' && !isLogin && (
+            <form onSubmit={verifyCode} className="space-y-4">
+              <input
+                type="text"
+                className="w-full rounded-xl p-4 bg-white/5 text-white placeholder-white/50 border border-white/20 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/50 text-center text-xl tracking-widest font-mono"
+                placeholder="XXXX-XXXX"
+                value={code}
+                onChange={e => setCode(e.target.value.toUpperCase())}
+                maxLength={20}
+                autoFocus
+              />
+              
+              <button 
+                type="submit"
+                disabled={loading || !code.trim()}
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+              >
+                {loading ? 'Проверяю...' : 'Проверить код'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsLogin(true)}
+                className="w-full text-white/60 hover:text-white py-2 text-sm"
+              >
+                Уже есть аккаунт? Войти
+              </button>
+            </form>
+          )}
+
+          {step === 'register' && (
+            <form onSubmit={register} className="space-y-4">
+              <input
+                type="text"
+                className="w-full rounded-xl p-4 bg-white/5 text-white placeholder-white/50 border border-white/20 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                placeholder="Ваше имя"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                autoFocus
+              />
+              
+              <input
+                type="email"
+                className="w-full rounded-xl p-4 bg-white/5 text-white placeholder-white/50 border border-white/20 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
+              
+              <input
+                type="password"
+                className="w-full rounded-xl p-4 bg-white/5 text-white placeholder-white/50 border border-white/20 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                placeholder="Пароль (минимум 6 символов)"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+              
+              <button 
+                type="submit"
+                disabled={loading || !email.trim() || !password || !name.trim()}
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+              >
+                {loading ? 'Создаю аккаунт...' : 'Зарегистрироваться'}
+              </button>
+            </form>
+          )}
+
+          {isLogin && (
+            <form onSubmit={login} className="space-y-4">
+              <input
+                type="email"
+                className="w-full rounded-xl p-4 bg-white/5 text-white placeholder-white/50 border border-white/20 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                autoFocus
+              />
+              
+              <input
+                type="password"
+                className="w-full rounded-xl p-4 bg-white/5 text-white placeholder-white/50 border border-white/20 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                placeholder="Пароль"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+              
+              <button 
+                type="submit"
+                disabled={loading || !email.trim() || !password}
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+              >
+                {loading ? 'Вхожу...' : 'Войти'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { setIsLogin(false); setStep('code'); }}
+                className="w-full text-white/60 hover:text-white py-2 text-sm"
+              >
+                Нет аккаунта? Ввести инвайт-код
+              </button>
+            </form>
+          )}
+
+          {message && (
+            <div className={`mt-4 p-4 rounded-xl text-center ${
+              messageType === 'success' 
+                ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                : 'bg-red-500/20 text-red-300 border border-red-500/30'
+            }`}>
+              {message}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
