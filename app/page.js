@@ -5,27 +5,30 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [showCodeForm, setShowCodeForm] = useState(false);
   const [message, setMessage] = useState('');
+  const botUsername = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME || 'npavlovvsale_bot';
 
   useEffect(() => {
-    // Проверяем авторизацию
     (async () => {
-      const res = await fetch('/api/me').catch(()=>null);
-      if (res && res.ok) {
-        const j = await res.json();
-        setUser(j.user);
-        setShowCodeForm(true);
+      try {
+        const res = await fetch('/api/me');
+        if (res.ok) {
+          const j = await res.json();
+          setUser(j.user);
+          setShowCodeForm(true);
+        }
+      } catch (e) {
+        console.error('Auth check failed:', e);
       }
     })();
 
-    // Загружаем Telegram виджет только на клиенте
     if (!user) {
       const script = document.createElement('script');
       script.src = 'https://telegram.org/js/telegram-widget.js?22';
       script.async = true;
-      script.setAttribute('data-telegram-login', process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME || '');
+      script.setAttribute('data-telegram-login', botUsername);
       script.setAttribute('data-size', 'large');
       script.setAttribute('data-radius', '12');
-      script.setAttribute('data-auth-url', '/api/auth');
+      script.setAttribute('data-auth-url', 'https://my-sales-platform.vercel.app/api/auth');
       script.setAttribute('data-request-access', 'write');
       
       const container = document.getElementById('tg-widget');
