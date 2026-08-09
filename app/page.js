@@ -1,5 +1,6 @@
 'use client';
 import { AnimatedHero } from '@/components/ui/animated-hero';
+import { Marquee } from '@/components/ui/marquee';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import Link from 'next/link';
 
@@ -38,7 +39,27 @@ export default function Landing() {
       </header>
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
+      <section className="relative max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
+        {/* Фоновый marquee — декоративный слой */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden flex flex-col justify-between py-10" aria-hidden="true">
+          <Marquee
+            text="ПРОДАВАТЬ МОЖНО НАУЧИТЬСЯ • ПРОДАЖИ ЭТО НАВЫК • СИСТЕМА РЕШАЕТ"
+            speed={60}
+            direction="right"
+            fontSize="text-5xl md:text-7xl"
+            color="rgba(217,242,79,0.08)"
+            opacity={1}
+          />
+          <div className="py-32" />
+          <Marquee
+            text="НЕЙРОХАКИНГ • СПИН • MEDDIC • ЦЕННОСТЬ • СДЕЛКА"
+            speed={50}
+            direction="left"
+            fontSize="text-5xl md:text-7xl"
+            color="rgba(217,242,79,0.08)"
+            opacity={1}
+          />
+        </div>
         <div className="fade-up inline-block mb-8 px-5 py-2 rounded-full border text-sm font-medium" style={{ borderColor: 'rgba(217,242,79,0.4)', color: LIME }}>
           ⚡ Закрытый курс по продажам
         </div>
