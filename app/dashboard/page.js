@@ -134,11 +134,11 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
-              {user.name?.charAt(0).toUpperCase() || 'U'}
+              NP
             </div>
             <div>
-              <p className="text-white font-semibold">{user.name || 'User'}</p>
-              <p className="text-white/50 text-sm">{user.email}</p>
+              <p className="text-white font-semibold">NP Sales</p>
+              <p className="text-white/50 text-sm">{user.name || 'User'} • {user.email}</p>
             </div>
           </div>
           <button 
@@ -157,7 +157,7 @@ export default function Dashboard() {
             Привет, {user.name}! 👋
           </h1>
           <p className="text-white/70">
-            Добро пожаловать в закрытое образовательное пространство NWO.
+            Добро пожаловать в закрытое образовательное пространство NP Sales.
             Здесь собраны все необходимые материалы, лекции и инструменты
             для вашего профессионального роста.
           </p>
@@ -179,7 +179,7 @@ export default function Dashboard() {
             <p className="text-white/50 text-sm mb-1">Наше сообщество</p>
             <p className="text-lg font-semibold text-white mb-2">Закрытый Telegram-канал</p>
             <a 
-              href="https://t.me/your_channel" 
+              href="https://t.me/nikpavlovv" 
               target="_blank"
               className="text-purple-400 hover:text-purple-300 text-sm"
             >
@@ -248,9 +248,9 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Footer note */}
+        {/* Footer */}
         <div className="mt-8 text-center text-white/40 text-sm">
-          Сделано @c0lddev • Рады видеть вас в команде
+          NP Sales • Nik Pavlov • {new Date().getFullYear()}
         </div>
       </div>
     </div>
