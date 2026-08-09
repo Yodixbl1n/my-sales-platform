@@ -1,4 +1,5 @@
 'use client';
+import { AnimatedHero } from '@/components/ui/animated-hero';
 import Link from 'next/link';
 
 const LIME = '#d9f24f';
@@ -41,10 +42,7 @@ export default function Landing() {
           ⚡ Закрытый курс по продажам
         </div>
 
-        <h1 className="fade-up-1 text-6xl md:text-8xl font-black tracking-tighter leading-none mb-8">
-          ПРОДАЖИ —<br />
-          <span className="neon" style={{ color: LIME }}>ЭТО НАВЫК</span>
-        </h1>
+        <AnimatedHero />
 
         <p className="fade-up-2 text-xl md:text-2xl text-white/60 max-w-3xl mx-auto mb-12 leading-relaxed">
           Научись продавать — и перестань зависеть от обстоятельств.
