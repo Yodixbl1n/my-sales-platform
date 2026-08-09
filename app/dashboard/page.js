@@ -69,7 +69,7 @@ export default function Dashboard() {
           <div className="relative overflow-hidden rounded-3xl p-10 min-h-[420px] flex flex-col justify-end"
             style={{ background: 'radial-gradient(130% 130% at 85% 0%, #7c3aed 0%, #5b21b6 40%, #0f766e 80%, #b45309 115%)' }}>
             <p className="text-2xl mb-1" style={{ color: LIME }}>Твоё обучение</p>
-            <h1 className="text-8xl font-black tracking-tighter mb-8">2026</h1>
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-8">2026</h1>
             <div className="rounded-2xl bg-white/10 p-5">
               <p className="leading-relaxed">Ты в начале пути. Впереди {totalLessons} уроков, которые изменят то, как ты продаёшь.</p>
             </div>
