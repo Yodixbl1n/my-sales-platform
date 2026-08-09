@@ -1,5 +1,6 @@
 'use client';
 import { AnimatedHero } from '@/components/ui/animated-hero';
+import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import Link from 'next/link';
 
 const LIME = '#d9f24f';
@@ -50,20 +51,18 @@ export default function Landing() {
         </p>
 
         <div className="fade-up-3 flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
+          <InteractiveHoverButton
             href="/login"
-            className="px-10 py-5 rounded-full font-black text-black text-lg transition-transform hover:scale-105"
-            style={{ background: LIME, boxShadow: '0 0 40px rgba(217,242,79,0.4)' }}
-          >
-            Получить доступ →
-          </Link>
-          <a
+            text="Получить доступ"
+            variant="lime"
+            className="w-64 py-5 text-lg"
+          />
+          <InteractiveHoverButton
             href="https://t.me/nikpavlovv"
-            target="_blank"
-            className="px-10 py-5 rounded-full font-bold text-lg border border-white/20 hover:border-white/50 transition-colors"
-          >
-            Telegram канал
-          </a>
+            text="Telegram канал"
+            variant="outline"
+            className="w-64 py-5 text-lg"
+          />
         </div>
       </section>
 
