@@ -1,156 +1,191 @@
 'use client';
 import Link from 'next/link';
 
+const LIME = '#d9f24f';
+
 export default function Landing() {
+  const marqueeItems = ['ПРОДАЖИ', 'ПЕРЕГОВОРЫ', 'ЦЕННОСТЬ', 'ВОЗРАЖЕНИЯ', 'ЗАКРЫТИЕ СДЕЛОК', 'ПРИБЫЛЬ', 'СПИН', 'МЕДДИК', 'НЕЙРОХАКИНГ'];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 overflow-hidden">
-      {/* Hero Section */}
-      <div className="relative min-h-screen flex flex-col">
-        {/* Background decoration */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 -left-40 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 -right-40 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
+      <style>{`
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-track { animation: marquee 25s linear infinite; }
+        @keyframes glowPulse { 0%,100% { text-shadow: 0 0 20px rgba(217,242,79,0.4); } 50% { text-shadow: 0 0 50px rgba(217,242,79,0.9); } }
+        .neon { animation: glowPulse 2.5s ease-in-out infinite; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up { animation: fadeUp 0.9s ease-out both; }
+        .fade-up-1 { animation: fadeUp 0.9s ease-out 0.15s both; }
+        .fade-up-2 { animation: fadeUp 0.9s ease-out 0.3s both; }
+        .fade-up-3 { animation: fadeUp 0.9s ease-out 0.45s both; }
+      `}</style>
+
+      {/* Header */}
+      <header className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-black" style={{ background: LIME }}>NP</div>
+          <span className="text-xl font-bold tracking-tight">NP<span style={{ color: LIME }}>Sales</span></span>
+        </div>
+        <Link
+          href="/login"
+          className="px-6 py-2.5 rounded-full font-bold text-black transition-transform hover:scale-105"
+          style={{ background: LIME }}
+        >
+          Войти
+        </Link>
+      </header>
+
+      {/* Hero */}
+      <section className="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
+        <div className="fade-up inline-block mb-8 px-5 py-2 rounded-full border text-sm font-medium" style={{ borderColor: 'rgba(217,242,79,0.4)', color: LIME }}>
+          ⚡ Закрытый курс по продажам
         </div>
 
-        {/* Header */}
-        <header className="relative z-10 max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold">
-              NP
-            </div>
-            <span className="text-white font-bold text-xl">NP Sales</span>
-          </div>
-          <Link 
+        <h1 className="fade-up-1 text-6xl md:text-8xl font-black tracking-tighter leading-none mb-8">
+          ПРОДАЖИ —<br />
+          <span className="neon" style={{ color: LIME }}>ЭТО НАВЫК</span>
+        </h1>
+
+        <p className="fade-up-2 text-xl md:text-2xl text-white/60 max-w-3xl mx-auto mb-12 leading-relaxed">
+          Научись продавать — и перестань зависеть от обстоятельств.
+          Ты сам находишь клиентов, называешь цену и влияешь на свой доход.
+        </p>
+
+        <div className="fade-up-3 flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
             href="/login"
-            className="text-white/70 hover:text-white px-6 py-2.5 rounded-xl border border-white/20 hover:border-white/40 transition-all duration-300 text-sm font-medium"
+            className="px-10 py-5 rounded-full font-black text-black text-lg transition-transform hover:scale-105"
+            style={{ background: LIME, boxShadow: '0 0 40px rgba(217,242,79,0.4)' }}
           >
-            Войти
+            Получить доступ →
           </Link>
-        </header>
-
-        {/* Hero Content */}
-        <main className="relative z-10 flex-1 flex items-center justify-center px-6 py-20">
-          <div className="max-w-4xl text-center">
-            <div className="inline-block mb-6 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
-              <span className="text-purple-300 text-sm">Закрытый курс по продажам</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              Твой доход начинается с{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                умения продавать
-              </span>
-            </h1>
-            
-            <p className="text-xl text-white/60 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Научись продавать — и перестань зависеть от обстоятельств.
-              Когда ты умеешь продавать, ты можешь находить клиентов,
-              дороже оценивать себя и сам влиять на то, сколько зарабатываешь.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link
-                href="/login"
-                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg shadow-purple-500/25"
-              >
-                Получить доступ
-              </Link>
-              <a
-                href="https://t.me/nikpavlovv"
-                target="_blank"
-                className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-300"
-              >
-                Telegram канал
-              </a>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto">
-              <div>
-                <p className="text-3xl font-bold text-white">8</p>
-                <p className="text-white/50 text-sm mt-1">модулей</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-white">49</p>
-                <p className="text-white/50 text-sm mt-1">уроков</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-white">∞</p>
-                <p className="text-white/50 text-sm mt-1">доступ</p>
-              </div>
-            </div>
-          </div>
-        </main>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/30 animate-bounce">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </div>
-
-      {/* What Inside Section */}
-      <section className="relative py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-4">Что внутри</h2>
-          <p className="text-white/50 text-center mb-16 max-w-2xl mx-auto">
-            Полная система продаж: от первого контакта до закрытия сделки
-          </p>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: '🎯', title: 'Базовые понятия', desc: '5 этапов продажи, установление контакта, выявление потребностей' },
-              { icon: '🧠', title: 'Метод СПИН', desc: 'Программирование диалога, квалификация, фреймворк MEDDIC' },
-              { icon: '💎', title: 'Архитектура ценности', desc: 'Инжиниринг пре-убеждения, математика ценности, офферы' },
-              { icon: '🛡️', title: 'Работа с возражениями', desc: '«Дорого», «Я подумаю», «Нет денег» и другие' },
-              { icon: '💰', title: 'Максимизация прибыли', desc: 'Upsell, LTV, Lock-in Strategy, эффект приманки' },
-              { icon: '🔥', title: 'Продвинутые техники', desc: 'Белфорт, Крис Восс, Сэндлер, нейрохакинг продаж' },
-            ].map((item, idx) => (
-              <div key={idx} className="group p-8 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300 transform hover:-translate-y-1">
-                <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-semibold text-white mb-2">{item.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
+          <a
+            href="https://t.me/nikpavlovv"
+            target="_blank"
+            className="px-10 py-5 rounded-full font-bold text-lg border border-white/20 hover:border-white/50 transition-colors"
+          >
+            Telegram канал
+          </a>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-24 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/20 rounded-3xl p-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Готов прокачать навык продаж?
-            </h2>
-            <p className="text-white/60 mb-8">
-              Доступ по инвайт-коду. Код выдаётся при покупке курса.
-            </p>
+      {/* Marquee */}
+      <div className="py-6 border-y overflow-hidden" style={{ borderColor: 'rgba(217,242,79,0.3)', background: 'rgba(217,242,79,0.05)' }}>
+        <div className="marquee-track flex whitespace-nowrap gap-8 w-max">
+          {[...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, idx) => (
+            <span key={idx} className="text-2xl font-black tracking-tight flex items-center gap-8">
+              <span style={{ color: idx % 2 === 0 ? LIME : 'rgba(255,255,255,0.8)' }}>{item}</span>
+              <span style={{ color: LIME }}>✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* What inside */}
+      <section className="max-w-7xl mx-auto px-6 py-24">
+        <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
+          ЧТО <span style={{ color: LIME }}>ВНУТРИ</span>
+        </h2>
+        <p className="text-white/50 text-center text-lg mb-16">Полная система: от первого контакта до закрытия сделки</p>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            { num: '01', title: 'Базовые понятия', desc: '5 этапов продажи, установление контакта, выявление потребностей, презентация СВЭ' },
+            { num: '02', title: 'Метод СПИН', desc: 'Программирование диалога, квалификация клиента, фреймворк MEDDIC' },
+            { num: '03', title: 'Архитектура ценности', desc: 'Инжиниринг пре-убеждения, математика ценности, безотказные офферы' },
+            { num: '04', title: 'Работа с возражениями', desc: '«Дорого», «Я подумаю», «Нет денег» — формулы амортизации' },
+            { num: '05', title: 'Максимизация прибыли', desc: 'Upsell, LTV, Lock-in Strategy, эффект приманки, торги' },
+            { num: '06', title: 'Нейрохакинг продаж', desc: 'Белфорт, Крис Восс, Сэндлер, дофаминовые петли, фреймы' },
+          ].map((item) => (
+            <div
+              key={item.num}
+              className="group p-8 rounded-3xl border border-white/10 bg-[#141414] hover:bg-[#1a1a1a] transition-all duration-300 hover:-translate-y-1"
+              style={{ borderColor: undefined }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = LIME)}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
+            >
+              <p className="text-5xl font-black mb-6 opacity-30 group-hover:opacity-100 transition-opacity" style={{ color: LIME }}>{item.num}</p>
+              <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+              <p className="text-white/50 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className="max-w-5xl mx-auto px-6 pb-24">
+        <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-16">
+          ВЫБЕРИ <span style={{ color: LIME }}>СВОЙ ПУТЬ</span>
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* FREE */}
+          <div className="rounded-3xl border border-white/10 bg-[#141414] p-10 flex flex-col">
+            <p className="text-sm tracking-widest text-white/50 mb-2">СТАРТ</p>
+            <h3 className="text-4xl font-black mb-6">NP FREE</h3>
+            <ul className="space-y-3 mb-10 text-white/70">
+              <li>✓ Пойми как устроена продажа</li>
+              <li>✓ Приёмы которые работают сегодня</li>
+              <li>✓ Уроки без регистрации</li>
+            </ul>
+            <a
+              href="https://t.me/nikpavlovv"
+              target="_blank"
+              className="mt-auto text-center py-4 rounded-full font-bold border border-white/20 hover:border-white/50 transition-colors"
+            >
+              Начать бесплатно
+            </a>
+          </div>
+
+          {/* BLACK */}
+          <div className="rounded-3xl p-10 flex flex-col relative" style={{ background: LIME, color: '#0a0a0a', boxShadow: '0 0 60px rgba(217,242,79,0.3)' }}>
+            <span className="absolute top-6 right-6 px-3 py-1 rounded-full bg-black text-xs font-bold" style={{ color: LIME }}>ПОЛНЫЙ ДОСТУП</span>
+            <p className="text-sm tracking-widest opacity-60 mb-2">ПРОКАЧКА</p>
+            <h3 className="text-4xl font-black mb-6">NP BLACK</h3>
+            <ul className="space-y-3 mb-10 font-medium">
+              <li>✓ Все 8 модулей и 49 уроков</li>
+              <li>✓ Как показывать ценность и называть цену</li>
+              <li>✓ Что отвечать на «дорого» и «подумаю»</li>
+              <li>✓ Закрытие сделки без давления</li>
+              <li>✓ Закрытое сообщество</li>
+            </ul>
             <Link
               href="/login"
-              className="inline-block px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg shadow-purple-500/25"
+              className="mt-auto text-center py-4 rounded-full font-black bg-black transition-transform hover:scale-105"
+              style={{ color: LIME }}
             >
-              Ввести инвайт-код
+              Получить полный доступ
             </Link>
           </div>
         </div>
       </section>
 
+      {/* CTA */}
+      <section className="max-w-4xl mx-auto px-6 pb-24 text-center">
+        <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
+          ТВОЯ ТОЧКА Б <span className="neon" style={{ color: LIME }}>БЛИЗКО</span>
+        </h2>
+        <p className="text-white/60 text-lg mb-10 leading-relaxed">
+          Ты заходишь в любой разговор спокойно. Показываешь ценность, уверенно называешь цену
+          и знаешь что сказать дальше. Больше не ждёшь шанса — создаёшь его сам.
+        </p>
+        <Link
+          href="/login"
+          className="inline-block px-12 py-5 rounded-full font-black text-black text-lg transition-transform hover:scale-105"
+          style={{ background: LIME, boxShadow: '0 0 40px rgba(217,242,79,0.4)' }}
+        >
+          Ввести инвайт-код ⚡
+        </Link>
+      </section>
+
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-white/5">
+      <footer className="border-t border-white/10 py-10 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-              NP
-            </div>
-            <span className="text-white/60 text-sm">NP Sales © 2026</span>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center font-black text-black text-sm" style={{ background: LIME }}>NP</div>
+            <span className="text-white/50 text-sm">NP Sales © 2026 • Система обучения продажам</span>
           </div>
-          <a
-            href="https://t.me/nikpavlovv"
-            target="_blank"
-            className="text-white/40 hover:text-white/70 text-sm transition-colors"
-          >
+          <a href="https://t.me/nikpavlovv" target="_blank" className="font-bold hover:opacity-70 transition-opacity" style={{ color: LIME }}>
             @nikpavlovv
           </a>
         </div>
