@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Trophy, TrendingUp, Sparkles } from 'lucide-react';
 import { ModuleQuiz } from '@/components/ui/module-quiz';
 import { LessonViewer } from '@/components/ui/lesson-viewer';
+import { Loader } from '@/components/ui/loader';
 
 const LIME = '#d9f24f';
 
@@ -174,7 +175,7 @@ export default function Dashboard() {
   };
 
   if (!user) {
-    return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-white">Загрузка...</div>;
+    return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center"><Loader label="ЗАГРУЖАЕМ ТВОЙ ПРОГРЕСС..." /></div>;
   }
 
   const badge = (id) => {
