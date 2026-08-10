@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Trophy } from 'lucide-react';
+import { Trophy, TrendingUp, Sparkles } from 'lucide-react';
 import { ModuleQuiz } from '@/components/ui/module-quiz';
 import { LessonViewer } from '@/components/ui/lesson-viewer';
 
@@ -17,8 +17,10 @@ function pluralize(n, one, few, many) {
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [activeModule, setActiveModule] = useState(null);
-  const [openLesson, setOpenLesson] = useState(null);
   const [completed, setCompleted] = useState([]);
+  const [completedLessons, setCompletedLessons] = useState([]);
+  const [openLesson, setOpenLesson] = useState(null);
+  const [successMsg, setSuccessMsg] = useState(null);
 
   useEffect(() => {
     fetch('/api/me')
@@ -30,10 +32,18 @@ export default function Dashboard() {
   useEffect(() => {
     try {
       setCompleted(JSON.parse(localStorage.getItem('np_progress') || '[]'));
+      setCompletedLessons(JSON.parse(localStorage.getItem('np_lessons') || '[]'));
     } catch (e) {}
   }, []);
 
   const unlocked = (id) => id === 1 || completed.includes(id - 1);
+
+  // Урок открыт, только если модуль открыт И предыдущий урок пройден
+  const lessonUnlocked = (m, l) => {
+    if (!unlocked(m)) return false;
+    if (l === 0) return true;
+    return completedLessons.includes(m + '-' + (l - 1));
+  };
 
   const completeModule = (id) => {
     setCompleted((prev) => {
@@ -46,94 +56,122 @@ export default function Dashboard() {
   const modules = [
     { id: 1, title: 'Введение и базовые понятия',
       lessons: [
-        'Глоссарий экспертных продаж и философия: от «впаривания» к помощи',
-        'Классическая архитектура — 5 обязательных этапов продажи',
-        'Установление контакта: вербальное и невербальное, голос как лицо продавца',
-        'Правила звонка, слова-табу и топ-4 ошибки при контакте',
-        'Выявление потребности: открытые, альтернативные и закрытые вопросы',
-        'Техники слушания: активно-безоценочное как рабочая техника',
-        'Презентация по принципу СВЭ (свойство → выгода → эмоция)',
-        'Дополнительные вопросы клиента и завершение контакта',
-        'Управление внутренним состоянием (НЛП): 4 принципа уверенности',
-        'Цифровая прослушка, самоанализ, спарринги + методика ФБР и Джим Кэмп',
+        'Глоссарий экспертных продаж и философия',
+        'Классическая архитектура — 5 этапов продажи',
+        'Установление контакта: вербальное и невербальное',
+        'Правила звонка, слова-табу и топ-4 ошибки',
+        'Выявление потребности: типы вопросов',
+        'Техники слушания',
+        'Презентация по принципу СВЭ',
+        'Дополнительные вопросы клиента и завершение',
+        'Управление внутренним состоянием (НЛП)',
+        'Цифровая прослушка и самоанализ',
       ] },
-    { id: 2, title: 'Программирование диалога и квалификация (СПИН)',
+    { id: 2, title: 'Программирование диалога (СПИН)',
       lessons: [
         'Программирование диалога и фрейминг',
-        'Ситуационные вопросы (С) — аудит точки А и точки Б',
-        'Проблемные вопросы (П) — поиск «узких горлышек»',
-        'Извлекающие вопросы (И) — масштабирование боли',
-        'Направляющие вопросы (Н) — клиент продаёт себе сам',
-        'Экологичность СПИН и архитектура идеального перехода',
-        'Карта ЛПР: выход на директора в B2B-сделках',
-        'Сводная практика: сквозной скрипт квалификации + MEDDIC',
+        'Ситуационные вопросы (С)',
+        'Проблемные вопросы (П)',
+        'Извлекающие вопросы (И)',
+        'Направляющие вопросы (Н)',
+        'Экологичность СПИН',
+        'Карта ЛПР',
+        'Сквозной скрипт + MEDDIC',
       ] },
-    { id: 3, title: 'Архитектура ценности и инжиниринг пре-убеждения',
+    { id: 3, title: 'Архитектура ценности',
       lessons: [
-        'Инжиниринг пре-убеждения: подготовка восприятия до аргументации',
-        'Математика ценности: формула безотказного оффера',
-        'Стратегия «рынка одного игрока» и вакуум продаж',
-        'Психологические усилители: дефицит, срочность, гарантии (Чалдини)',
-        'Архитектура лид-магнитов и триггер взаимного обмена',
-        'Экономика внимания и правило «3.5 к 1»',
-        'Авторитет, соц. доказательство, триггер единства и общий враг',
-        'Аудит обвинений и «правило 100» в трафике',
+        'Инжиниринг пре-убеждения',
+        'Математика ценности',
+        'Стратегия рынка одного игрока',
+        'Психологические усилители (Чалдини)',
+        'Лид-магниты и взаимный обмен',
+        'Экономика внимания',
+        'Авторитет и соц. доказательство',
+        'Аудит обвинений',
       ] },
-    { id: 4, title: 'Архитектура отработки возражений',
+    { id: 4, title: 'Архитектура возражений',
       lessons: [
-        'Универсальный алгоритм: согласие → переход → аргумент → призыв',
-        'Возражение «Дорого»: смещение фокуса на окупаемость',
-        'Возражение «Я подумаю»: вскрытие истинной причины',
-        'Возражение «У конкурентов дешевле»: разница в содержании и результате',
-        'Возражение «Мне нужно посоветоваться»: вовлечение второго человека',
-        'Возражение «Нет денег»: смещение приоритета без давления',
-        'Искусство жёсткого «нет»: экологичное увольнение клиента',
-        'Защита цены по методу Гэвина Кеннеди',
+        'Универсальный алгоритм',
+        'Возражение «Дорого»',
+        'Возражение «Я подумаю»',
+        'Возражение «У конкурентов дешевле»',
+        'Возражение «Нужно посоветоваться»',
+        'Возражение «Нет денег»',
+        'Искусство жёсткого «нет»',
+        'Защита цены по Кеннеди',
       ] },
-    { id: 5, title: 'Максимизация прибыли (Upsell, торги и LTV)',
+    { id: 5, title: 'Максимизация прибыли',
       lessons: [
-        'Анатомия скидки и правило «обмена уступками»',
-        'Архитектура Up-sell: дорогая версия в момент готовности платить',
-        'Cross-sell: сопутствующий продукт, усиливающий результат',
-        'LTV и пост-продажное обслуживание по Карлу Сьюэллу',
+        'Анатомия скидки',
+        'Архитектура Up-sell',
+        'Cross-sell',
+        'LTV по Карлу Сьюэллу',
       ] },
-    { id: 6, title: 'Продвинутые техники (закрытый блок)',
+    { id: 6, title: 'Продвинутые техники',
       lessons: [
-        'Блок А: метод «Прямой линии» Белфорта и механика зацикливания',
-        'Блок А: правило «трёх десяток» — продукт, продавец, компания',
-        'Блок Б: продажа через асимметрию информации (модель BlackRock)',
-        'Блок Б: MEDDIC — закрытый чек-лист квалификации B2B',
-        'Блок В: управление тональностью голоса и Pace & Pitch Anchor',
-        'Блок Г: фреймы Клаффа — «Приз» и «Интрига»',
-        'Блок Г: Крис Восс — отражение, провокация на «нет», калиброванные вопросы',
-        'Блок Г: негативный реверс Сэндлера',
-        'Блок Г: брекетинг и упреждающий удар по возражениям',
-        'Блок Д: эффект приманки (асимметричное доминирование)',
-        'Блок Д: Lock-in Strategy (институциональный захват)',
+        'Метод «Прямой линии» Белфорта',
+        'Правило «трёх десяток»',
+        'Асимметрия информации (BlackRock)',
+        'MEDDIC',
+        'Управление тональностью голоса',
+        'Фреймы Клаффа',
+        'Крис Восс — отражение',
+        'Негативный реверс Сэндлера',
+        'Брекетинг',
+        'Эффект приманки',
+        'Lock-in Strategy',
       ] },
     { id: 7, title: 'Нейрохакинг продаж',
       lessons: [
-        'Урок 1: дофаминовое «выжигание» и петля ожидания',
-        'Урок 2: захват амигдалы через «иллюзию угрозы»',
-        'Урок 3: нейро-зеркалирование и эффект собственности',
-        'Урок 4: окситоциновый взлом «свой/чужой»',
-        'Урок 5: серотониновый сдвиг статуса',
-        'Урок 6: взлом кортизола через управляемый стресс',
-        'Урок 7: нейролингвистический рефрейминг (Sleight of Mouth)',
-        'Урок 8: феномен Баадера-Майнхоф',
+        'Дофаминовое «выжигание»',
+        'Захват амигдалы',
+        'Нейро-зеркалирование',
+        'Окситоциновый взлом',
+        'Серотониновый сдвиг статуса',
+        'Взлом кортизола',
+        'Нейролингвистический рефрейминг',
+        'Феномен Баадера-Майнхоф',
       ] },
-    { id: 8, title: 'Мастер-класс по ментальному превосходству и стратегическому влиянию',
+    { id: 8, title: 'Ментальное превосходство',
       lessons: [
-        'Адаптация языка под тип собеседника (3 профиля)',
-        'Работа со слепой зоной клиента: факт вместо совета',
-        'Сторителлинг с встроенным действием',
-        'Негативный реверс на этапе закрытия',
-        'Работа с обобщениями клиента («квантор общности»)',
-        'Пресуппозиции (техника из НЛП)',
+        'Адаптация языка под тип собеседника',
+        'Работа со слепой зоной клиента',
+        'Сторителлинг с действием',
+        'Негативный реверс на закрытии',
+        'Работа с обобщениями',
+        'Пресуппозиции',
       ] },
   ];
 
   const totalLessons = modules.reduce((s, m) => s + m.lessons.length, 0);
+  const progressPercent = Math.round((completedLessons.length / totalLessons) * 100);
+
+  const markLessonComplete = (m, l) => {
+    const key = m + '-' + l;
+    if (!completedLessons.includes(key)) {
+      const next = [...completedLessons, key];
+      setCompletedLessons(next);
+      localStorage.setItem('np_lessons', JSON.stringify(next));
+    }
+    const module = modules.find(mod => mod.id === m);
+    const isLast = module ? l + 1 >= module.lessons.length : true;
+    setSuccessMsg(isLast ? '🏆 Модуль пройден! Остался тест!' : '🎉 Молодец! Урок пройден!');
+    setTimeout(() => {
+      setSuccessMsg(null);
+      if (module && !isLast) {
+        setOpenLesson({ m: m, l: l + 1 });
+      } else {
+        setOpenLesson(null);
+        setActiveModule(m);
+      }
+    }, 1600);
+  };
+
+  const goToPrevLesson = (m, l) => {
+    if (l > 0) {
+      setOpenLesson({ m: m, l: l - 1 });
+    }
+  };
 
   if (!user) {
     return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-white">Загрузка...</div>;
@@ -144,6 +182,8 @@ export default function Dashboard() {
     if (unlocked(id)) return <span className="text-xs px-3 py-1 rounded-full font-medium" style={{ background: 'rgba(217,242,79,0.15)', color: LIME }}>▶ Доступен</span>;
     return <span className="text-xs px-3 py-1 rounded-full font-medium" style={{ background: 'rgba(239,68,68,0.15)', color: '#fca5a5' }}>🔒 Закрыт</span>;
   };
+
+  const displayName = user.first_name || user.name || user.username || 'друг';
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -157,21 +197,54 @@ export default function Dashboard() {
           className="flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 hover:bg-white/10 transition-colors"
         >
           <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white" style={{ background: 'linear-gradient(135deg,#a855f7,#ec4899)' }}>
-            {user.name?.charAt(0).toUpperCase() || 'U'}
+            {displayName.charAt(0).toUpperCase()}
           </div>
-          <span className="text-sm font-medium">{user.name}</span>
+          <span className="text-sm font-medium">{displayName}</span>
           <svg className="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
         </button>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 pb-16">
+        <div className="mb-8">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter">
+            Привет, <span style={{ color: LIME }}>{displayName}</span>! <span className="inline-block animate-pulse">👋</span>
+          </h1>
+          <p className="text-white/50 mt-2 text-lg">Готов прокачать продажи сегодня?</p>
+        </div>
+
         <div className="grid gap-6 lg:grid-cols-3 mb-12">
-          <div className="relative overflow-hidden rounded-3xl p-10 min-h-[420px] flex flex-col justify-end"
+          <div className="relative overflow-hidden rounded-3xl p-8 min-h-[420px] flex flex-col justify-between"
             style={{ background: 'radial-gradient(130% 130% at 85% 0%, #7c3aed 0%, #5b21b6 40%, #0f766e 80%, #b45309 115%)' }}>
-            <p className="text-2xl mb-1" style={{ color: LIME }}>Твоё обучение</p>
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-8">2026</h1>
-            <div className="rounded-2xl bg-white/10 p-5">
-              <p className="leading-relaxed">Ты в начале пути. Впереди {totalLessons} {pluralize(totalLessons, 'урок', 'урока', 'уроков')}, которые изменят то, как ты продаёшь.</p>
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <TrendingUp className="w-5 h-5" style={{ color: LIME }} />
+                <p className="text-sm tracking-widest text-white/70">ТВОЙ ПРОГРЕСС</p>
+              </div>
+              <div className="flex items-baseline gap-3 mt-4">
+                <p className="text-7xl md:text-8xl font-black tracking-tighter" style={{ color: LIME }}>{progressPercent}</p>
+                <p className="text-3xl font-black" style={{ color: LIME }}>%</p>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <div className="h-3 rounded-full bg-white/10 overflow-hidden">
+                <div className="h-full rounded-full transition-all duration-700" style={{ width: progressPercent + '%', background: LIME }} />
+              </div>
+              <div className="flex justify-between mt-3 text-xs text-white/60">
+                <span>{completedLessons.length} из {totalLessons} {pluralize(completedLessons.length, 'урок', 'урока', 'уроков')}</span>
+                <span>{completed.length} из {modules.length} модулей</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-white/10 p-4 mt-6">
+              <p className="leading-relaxed text-sm">
+                {progressPercent === 0 && "Ты в начале пути. Начни с первого урока — каждый шаг приближает к статусу эксперта."}
+                {progressPercent > 0 && progressPercent < 25 && "Отличный старт! Продолжай в том же духе."}
+                {progressPercent >= 25 && progressPercent < 50 && "Четверть пути пройдена. Системность — ключ к результату."}
+                {progressPercent >= 50 && progressPercent < 75 && "Больше половины позади. Ты уже видишь разницу в переговорах."}
+                {progressPercent >= 75 && progressPercent < 100 && "Финишная прямая. Осталось совсем немного."}
+                {progressPercent === 100 && "🏆 Все уроки пройдены! Теперь сдай тесты и получи статус эксперта."}
+              </p>
             </div>
           </div>
 
@@ -184,7 +257,7 @@ export default function Dashboard() {
               <p className="text-sm tracking-widest text-white/50 mb-3">МОДУЛЕЙ</p>
               <p className="text-6xl font-black tracking-tighter">{modules.length}</p>
               <span className="inline-flex items-center gap-2 mt-5 rounded-full px-4 py-1.5 text-sm font-medium" style={{ background: 'rgba(217,242,79,0.12)', color: LIME }}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
+                <Sparkles className="w-4 h-4" />
                 100% практика
               </span>
             </div>
@@ -210,65 +283,114 @@ export default function Dashboard() {
 
         <h2 className="text-3xl font-black tracking-tight mb-6">Программа курса</h2>
         <div className="space-y-4">
-          {modules.map((module) => (
-            <div key={module.id} className="rounded-3xl border border-white/10 bg-[#141414] overflow-hidden">
-              <button
-                onClick={() => setActiveModule(activeModule === module.id ? null : module.id)}
-                className="w-full flex items-center justify-between p-6 hover:bg-white/5 transition-colors"
-              >
-                <div className="flex items-center gap-5 flex-1 text-left">
-                  <span className="text-2xl font-black w-10 flex-shrink-0" style={{ color: LIME }}>{module.id}</span>
-                  <div className="flex-1">
-                    <p className="font-bold text-lg">{module.title}</p>
-                    <p className="text-white/40 text-sm mt-0.5">{module.lessons.length} {pluralize(module.lessons.length, 'урок', 'урока', 'уроков')}</p>
-                  </div>
-                  {badge(module.id)}
-                </div>
-                <svg className={`w-5 h-5 text-white/40 transition-transform flex-shrink-0 ml-4 ${activeModule === module.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+          {modules.map((module) => {
+            const moduleLessonsDone = module.lessons.filter((_, idx) => completedLessons.includes(module.id + '-' + idx)).length;
+            const allLessonsDone = moduleLessonsDone === module.lessons.length;
+            const moduleProgress = Math.round((moduleLessonsDone / module.lessons.length) * 100);
 
-              {activeModule === module.id && (
-                <div className="px-6 pb-6 space-y-2">
-                  {module.lessons.map((lesson, idx) => (
-                    <button
-                      key={idx}
-                      disabled={!unlocked(module.id)}
-                      onClick={() => setOpenLesson({ m: module.id, l: idx })}
-                      className="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-colors"
-                      style={{
-                        background: 'rgba(255,255,255,0.04)',
-                        color: !unlocked(module.id) ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.85)',
-                        cursor: !unlocked(module.id) ? 'not-allowed' : 'pointer'
-                      }}
-                    >
-                      <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: 'rgba(217,242,79,0.12)', color: LIME }}>
-                        {!unlocked(module.id) ? '🔒' : idx + 1}
-                      </span>
-                      {lesson}
-                    </button>
-                  ))}
-                  {unlocked(module.id) && (
-                    <ModuleQuiz
-                      moduleId={module.id}
-                      passed={completed.includes(module.id)}
-                      onPass={() => completeModule(module.id)}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
+            return (
+              <div key={module.id} className="rounded-3xl border border-white/10 bg-[#141414] overflow-hidden">
+                <button
+                  onClick={() => setActiveModule(activeModule === module.id ? null : module.id)}
+                  className="w-full flex items-center justify-between p-6 hover:bg-white/5 transition-colors"
+                >
+                  <div className="flex items-center gap-5 flex-1 text-left">
+                    <span className="text-2xl font-black w-10 flex-shrink-0" style={{ color: LIME }}>{module.id}</span>
+                    <div className="flex-1">
+                      <p className="font-bold text-lg">{module.title}</p>
+                      <div className="flex items-center gap-3 mt-1">
+                        <p className="text-white/40 text-sm">
+                          {moduleLessonsDone}/{module.lessons.length} {pluralize(module.lessons.length, 'урок', 'урока', 'уроков')}
+                        </p>
+                        {moduleLessonsDone > 0 && (
+                          <div className="flex-1 max-w-[120px] h-1.5 rounded-full bg-white/10 overflow-hidden">
+                            <div className="h-full rounded-full" style={{ width: moduleProgress + '%', background: LIME }} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {badge(module.id)}
+                  </div>
+                  <svg className={'w-5 h-5 text-white/40 transition-transform flex-shrink-0 ml-4 ' + (activeModule === module.id ? 'rotate-180' : '')} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {activeModule === module.id && (
+                  <div className="px-6 pb-6 space-y-2">
+                    {module.lessons.map((lesson, idx) => {
+                      const lessonDone = completedLessons.includes(module.id + '-' + idx);
+                      const canOpen = lessonUnlocked(module.id, idx);
+                      return (
+                        <button
+                          key={idx}
+                          disabled={!canOpen}
+                          onClick={() => setOpenLesson({ m: module.id, l: idx })}
+                          className="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-colors"
+                          style={{
+                            background: lessonDone ? 'rgba(217,242,79,0.08)' : 'rgba(255,255,255,0.04)',
+                            color: !canOpen ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.85)',
+                            cursor: !canOpen ? 'not-allowed' : 'pointer'
+                          }}
+                        >
+                          <span
+                            className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                            style={{
+                              background: lessonDone ? LIME : 'rgba(217,242,79,0.12)',
+                              color: lessonDone ? '#0a0a0a' : LIME,
+                            }}
+                          >
+                            {!canOpen ? '🔒' : lessonDone ? '✓' : idx + 1}
+                          </span>
+                          <span className={lessonDone ? 'line-through text-white/50' : ''}>{lesson}</span>
+                        </button>
+                      );
+                    })}
+
+                    {unlocked(module.id) && (allLessonsDone ? (
+                      <ModuleQuiz
+                        moduleId={module.id}
+                        passed={completed.includes(module.id)}
+                        onPass={() => completeModule(module.id)}
+                      />
+                    ) : (
+                      <div className="mt-4 p-4 rounded-2xl text-sm text-white/50 border border-white/10 bg-black/20">
+                        🔒 Тест откроется после прохождения всех уроков модуля ({moduleLessonsDone}/{module.lessons.length})
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-      </main>
-      <LessonViewer lesson={openLesson} onClose={() => setOpenLesson(null)} />
-      <main className="hidden">
+        <div className="mt-12 flex items-center justify-between text-sm text-white/40">
           <span>NP Sales • Nik Pavlov • 2026</span>
           <a href="https://t.me/nikpavlovv" target="_blank" className="hover:text-white transition-colors" style={{ color: LIME }}>@nikpavlovv</a>
         </div>
       </main>
+
+      <LessonViewer
+        lesson={openLesson}
+        onClose={() => setOpenLesson(null)}
+        onComplete={() => openLesson && markLessonComplete(openLesson.m, openLesson.l)}
+        onBack={() => openLesson && goToPrevLesson(openLesson.m, openLesson.l)}
+        isComplete={openLesson ? completedLessons.includes(openLesson.m + '-' + openLesson.l) : false}
+        isFirst={openLesson ? openLesson.l === 0 : true}
+      />
+
+      {successMsg && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center pointer-events-none">
+          <style>{'@keyframes pop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }'}</style>
+          <div
+            className="rounded-3xl px-10 py-8 text-center text-2xl font-black text-black"
+            style={{ background: LIME, boxShadow: '0 0 80px rgba(217,242,79,0.6)', animation: 'pop 0.25s ease-out' }}
+          >
+            {successMsg}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
