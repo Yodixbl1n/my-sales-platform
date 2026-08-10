@@ -273,7 +273,7 @@ export default function Dashboard() {
                 <Trophy className="w-12 h-12 text-black" strokeWidth={1.5} />
               </div>
               <p className="text-sm tracking-widest text-white/50 mb-2">ТЫ СТАНОВИШЬСЯ</p>
-              <h2 className="text-4xl font-black leading-tight tracking-tight text-white">Эксперт<br />по продажам</h2>
+              <h2 className="text-4xl font-black leading-tight tracking-tight text-white">Экспертом<br />по продажам</h2>
             </div>
             <p className="text-white/70 leading-relaxed border-t border-white/10 pt-5">
               Уверенность в каждом разговоре. Ты знаешь как показать ценность, отработать возражения и закрыть сделку.
