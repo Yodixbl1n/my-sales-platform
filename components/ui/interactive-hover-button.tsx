@@ -51,7 +51,7 @@ const InteractiveHoverButton = React.forwardRef<
 
   const style = {
     background: isLime ? LIME : 'transparent',
-    borderColor: isLime ? LIME : 'rgba(255,255,255,0.3)',
+    borderColor: LIME,
   };
 
   if (href) {
