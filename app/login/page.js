@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { DotPattern } from '@/components/ui/dot-pattern';
 
 const LIME = '#d9f24f';
 
@@ -125,6 +126,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col">
+      <DotPattern animated className="fixed inset-0 opacity-40 [mask-image:radial-gradient(600px_circle_at_center,rgba(217,242,79,0.35),transparent)]" />
       <header className="max-w-7xl mx-auto w-full px-6 py-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-black" style={{ background: LIME }}>NP</div>
