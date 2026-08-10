@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import { ModuleQuiz } from '@/components/ui/module-quiz';
+import { LessonViewer } from '@/components/ui/lesson-viewer';
 
 const LIME = '#d9f24f';
 
@@ -16,6 +17,7 @@ function pluralize(n, one, few, many) {
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [activeModule, setActiveModule] = useState(null);
+  const [openLesson, setOpenLesson] = useState(null);
   const [completed, setCompleted] = useState([]);
 
   useEffect(() => {
@@ -233,6 +235,7 @@ export default function Dashboard() {
                     <button
                       key={idx}
                       disabled={!unlocked(module.id)}
+                      onClick={() => setOpenLesson({ m: module.id, l: idx })}
                       className="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-colors"
                       style={{
                         background: 'rgba(255,255,255,0.04)',
@@ -259,7 +262,9 @@ export default function Dashboard() {
           ))}
         </div>
 
-        <div className="mt-12 flex items-center justify-between text-sm text-white/40">
+      </main>
+      <LessonViewer lesson={openLesson} onClose={() => setOpenLesson(null)} />
+      <main className="hidden">
           <span>NP Sales • Nik Pavlov • 2026</span>
           <a href="https://t.me/nikpavlovv" target="_blank" className="hover:text-white transition-colors" style={{ color: LIME }}>@nikpavlovv</a>
         </div>
