@@ -126,7 +126,7 @@ function Pricing() {
   const [burst, setBurst] = useState(0);
 
   return (
-    <section className="mx-auto max-w-6xl px-6 pb-24">
+    <section id="pricing" className="mx-auto max-w-6xl px-6 pb-24 scroll-mt-6">
       <h2 className="mb-4 text-center text-5xl font-black tracking-tighter md:text-6xl">
         ВЫБЕРИ <span style={{ color: LIME }}>СВОЙ ПУТЬ</span>
       </h2>
