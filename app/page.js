@@ -1,5 +1,7 @@
 'use client';
 import { AnimatedHero } from '@/components/ui/animated-hero';
+import { Pricing } from '@/components/ui/pricing';
+import { SocialProof, AboutAuthor } from '@/components/ui/social-proof';
 import { Marquee } from '@/components/ui/marquee';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import Link from 'next/link';
@@ -29,37 +31,18 @@ export default function Landing() {
           <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-black" style={{ background: LIME }}>NP</div>
           <span className="text-xl font-bold tracking-tight">NP<span style={{ color: LIME }}>Sales</span></span>
         </div>
-        <Link
-          href="/login"
+        <a
+          href="#pricing"
           className="px-6 py-2.5 rounded-full font-bold text-black transition-transform hover:scale-105"
           style={{ background: LIME }}
         >
-          Войти
-        </Link>
+          Узнать цены
+        </a>
       </header>
 
       {/* Hero */}
       <section className="relative max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
-        {/* Фоновый marquee — декоративный слой */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden flex flex-col justify-between py-10" aria-hidden="true">
-          <Marquee
-            text="ПРОДАВАТЬ МОЖНО НАУЧИТЬСЯ • ПРОДАЖИ ЭТО НАВЫК • СИСТЕМА РЕШАЕТ"
-            speed={60}
-            direction="right"
-            fontSize="text-5xl md:text-7xl"
-            color="rgba(217,242,79,0.08)"
-            opacity={1}
-          />
-          <div className="py-32" />
-          <Marquee
-            text="НЕЙРОХАКИНГ • СПИН • MEDDIC • ЦЕННОСТЬ • СДЕЛКА"
-            speed={50}
-            direction="left"
-            fontSize="text-5xl md:text-7xl"
-            color="rgba(217,242,79,0.08)"
-            opacity={1}
-          />
-        </div>
+        
         <div className="fade-up inline-block mb-8 px-5 py-2 rounded-full border text-sm font-medium" style={{ borderColor: 'rgba(217,242,79,0.4)', color: LIME }}>
           ⚡ Закрытый курс по продажам
         </div>
@@ -130,53 +113,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="max-w-5xl mx-auto px-6 pb-24">
-        <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-16">
-          ВЫБЕРИ <span style={{ color: LIME }}>СВОЙ ПУТЬ</span>
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* FREE */}
-          <div className="rounded-3xl border border-white/10 bg-[#141414] p-10 flex flex-col">
-            <p className="text-sm tracking-widest text-white/50 mb-2">СТАРТ</p>
-            <h3 className="text-4xl font-black mb-6">NP FREE</h3>
-            <ul className="space-y-3 mb-10 text-white/70">
-              <li>✓ Пойми как устроена продажа</li>
-              <li>✓ Приёмы которые работают сегодня</li>
-              <li>✓ Уроки без регистрации</li>
-            </ul>
-            <a
-              href="https://t.me/nikpavlovv"
-              target="_blank"
-              className="mt-auto text-center py-4 rounded-full font-bold border border-white/20 hover:border-white/50 transition-colors"
-            >
-              Начать бесплатно
-            </a>
-          </div>
-
-          {/* BLACK */}
-          <div className="rounded-3xl p-10 flex flex-col relative" style={{ background: LIME, color: '#0a0a0a', boxShadow: '0 0 60px rgba(217,242,79,0.3)' }}>
-            <span className="absolute top-6 right-6 px-3 py-1 rounded-full bg-black text-xs font-bold" style={{ color: LIME }}>ПОЛНЫЙ ДОСТУП</span>
-            <p className="text-sm tracking-widest opacity-60 mb-2">ПРОКАЧКА</p>
-            <h3 className="text-4xl font-black mb-6">NP BLACK</h3>
-            <ul className="space-y-3 mb-10 font-medium">
-              <li>✓ Все 8 модулей и 49 уроков</li>
-              <li>✓ Как показывать ценность и называть цену</li>
-              <li>✓ Что отвечать на «дорого» и «подумаю»</li>
-              <li>✓ Закрытие сделки без давления</li>
-              <li>✓ Закрытое сообщество</li>
-            </ul>
-            <Link
-              href="/login"
-              className="mt-auto text-center py-4 rounded-full font-black bg-black transition-transform hover:scale-105"
-              style={{ color: LIME }}
-            >
-              Получить полный доступ
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Pricing />
 
       {/* CTA */}
       <section className="max-w-4xl mx-auto px-6 pb-24 text-center">
@@ -192,7 +129,7 @@ export default function Landing() {
           className="inline-block px-12 py-5 rounded-full font-black text-black text-lg transition-transform hover:scale-105"
           style={{ background: LIME, boxShadow: '0 0 40px rgba(217,242,79,0.4)' }}
         >
-          Ввести инвайт-код ⚡
+          У меня есть код ⚡
         </Link>
       </section>
 

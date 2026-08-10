@@ -31,7 +31,7 @@ export function Marquee({
   const items = Array(8).fill(text);
   
   return (
-    <div className={cn("overflow-hidden whitespace-nowrap", className)} style={{ opacity }}>
+    <div className={cn("overflow-hidden whitespace-nowrap group", className)} style={{ opacity }}>
       <motion.div
         className={cn("flex flex-nowrap", gap, "w-max")}
         animate={{
@@ -44,6 +44,12 @@ export function Marquee({
             duration: speed,
             ease: "linear",
           },
+        }}
+        style={{
+          animationPlayState: "running",
+        }}
+        whileHover={{
+          animationPlayState: "paused",
         }}
       >
         {[...items, ...items].map((item, idx) => (

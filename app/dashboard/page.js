@@ -3,6 +3,14 @@ import { useEffect, useState } from 'react';
 
 const LIME = '#d9f24f';
 
+function pluralize(n, one, few, many) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+  return many;
+}
+
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [activeModule, setActiveModule] = useState(null);
@@ -90,23 +98,23 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white text-black p-8 min-h-[420px] flex flex-col">
+          <div className="rounded-3xl bg-[#141414] text-white p-8 min-h-[420px] flex flex-col border border-white/10">
             <div className="flex items-center justify-between">
-              <span className="rounded-full bg-black text-white px-5 py-2.5 font-semibold text-sm">Твоя цель</span>
-              <span className="text-black/30 text-xl tracking-widest">•••</span>
+              <span className="rounded-full px-5 py-2.5 font-semibold text-sm" style={{ background: LIME, color: "#0a0a0a" }}>Твоя цель</span>
+              <span className="text-white/30 text-xl tracking-widest">•••</span>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center text-center py-6">
-              <div className="w-28 h-28 rounded-full bg-black flex items-center justify-center mb-6">
-                <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <div className="w-28 h-28 rounded-full flex items-center justify-center mb-6" style={{ background: LIME }}>
+                <svg className="w-12 h-12 text-black" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 2l10 6-10 6L2 8l10-6z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2 12l10 6 10-6" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2 16l10 6 10-6" />
                 </svg>
               </div>
-              <p className="text-sm tracking-widest text-black/50 mb-2">ТЫ СТАНОВИШЬСЯ</p>
-              <h2 className="text-4xl font-black leading-tight tracking-tight">Эксперт<br />по продажам</h2>
+              <p className="text-sm tracking-widest text-white/50 mb-2">ТЫ СТАНОВИШЬСЯ</p>
+              <h2 className="text-4xl font-black leading-tight tracking-tight text-white">Эксперт<br />по продажам</h2>
             </div>
-            <p className="text-black/70 leading-relaxed border-t border-black/10 pt-5">
+            <p className="text-white/70 leading-relaxed border-t border-white/10 pt-5">
               Уверенность в каждом разговоре. Ты знаешь как показать ценность, отработать возражения и закрыть сделку.
             </p>
           </div>
@@ -124,7 +132,7 @@ export default function Dashboard() {
                   <span className="text-2xl font-black w-10 flex-shrink-0" style={{ color: LIME }}>{module.id}</span>
                   <div className="flex-1">
                     <p className="font-bold text-lg">{module.title}</p>
-                    <p className="text-white/40 text-sm mt-0.5">{module.lessons.length} уроков</p>
+                    <p className="text-white/40 text-sm mt-0.5">{module.lessons.length} {pluralize(module.lessons.length, "урок", "урока", "уроков")}</p>
                   </div>
                   {badge(module.status)}
                 </div>
