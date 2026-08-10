@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -30,7 +30,7 @@ function AnimatedHero() {
         {titles.map((title, index) => (
           <motion.span
             key={index}
-            className="absolute font-black neon"
+            className="absolute font-black"
             initial={{ opacity: 0, y: "-100%" }}
             transition={{ type: "spring", stiffness: 50 }}
             animate={

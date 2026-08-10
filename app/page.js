@@ -123,21 +123,52 @@ export default function Landing() {
       <Pricing />
 
       {/* CTA */}
-      <section className="max-w-4xl mx-auto px-6 pb-24 text-center">
-        <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
-          ТВОЯ ТОЧКА Б <span className="neon" style={{ color: LIME }}>БЛИЗКО</span>
+      <section className="max-w-6xl mx-auto px-6 pb-24">
+        <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
+          ТВОЯ ТОЧКА <span className="neon" style={{ color: LIME }}>Б</span>
         </h2>
-        <p className="text-white/60 text-lg mb-10 leading-relaxed">
-          Ты заходишь в любой разговор спокойно. Показываешь ценность, уверенно называешь цену
-          и знаешь что сказать дальше. Больше не ждёшь шанса — создаёшь его сам.
+        <p className="text-white/50 text-center text-lg mb-14">Не мечта, а набор навыков, которые можно потрогать</p>
+
+        <div className="grid gap-6 md:grid-cols-2 mb-10">
+          {[
+            { num: '01', title: 'Договариваешься с позиции силы', desc: 'Спокойно заходишь в любой разговор и ведёшь его по своим правилам, а не подстраиваешься под собеседника.' },
+            { num: '02', title: 'Показываешь ценность, а не скидку', desc: 'Объясняешь, почему твой продукт стоит своих денег, — без оправданий и скидок на входе.' },
+            { num: '03', title: 'Отрабатываешь возражения формулами', desc: '«Дорого», «я подумаю» и «мне надо посоветоваться» перестают быть стоп-фактором и становятся шагом к сделке.' },
+            { num: '04', title: 'Создаёшь себе доход сам', desc: 'Находишь клиентов, договариваешься и превращаешь навык в деньги — в любой нише, с любым продуктом, в любой стране.' },
+          ].map((item) => (
+            <div key={item.num} className="group rounded-3xl border border-white/10 bg-[#141414] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-[#d9f24f]">
+              <p className="text-4xl font-black mb-4 opacity-30 group-hover:opacity-100 transition-opacity" style={{ color: LIME }}>{item.num}</p>
+              <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+              <p className="text-white/50 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-[#141414] p-8 mb-10">
+          <p className="text-white/70 leading-relaxed text-center">
+            NP Sales не обещает миллион за ночь. Он даёт рабочую систему переговоров, которая остаётся с тобой при любой смене работы, ниши или продукта. Чем чаще применяешь её в реальных разговорах — тем сильнее становится навык.
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href="/login"
+            className="px-10 py-5 rounded-full font-black text-black text-lg transition-transform hover:scale-105 text-center"
+            style={{ background: LIME, boxShadow: '0 0 40px rgba(217,242,79,0.4)' }}
+          >
+            Забрать систему ⚡
+          </Link>
+          <a
+            href="https://t.me/nikpavlovv"
+            target="_blank"
+            className="px-10 py-5 rounded-full font-bold text-lg border border-white/20 hover:border-white/50 transition-colors text-center"
+          >
+            Попробовать бесплатно
+          </a>
+        </div>
+        <p className="text-center text-sm text-white/40 mt-6">
+          Уже есть инвайт-код? <Link href="/login" className="underline" style={{ color: LIME }}>Войти</Link>
         </p>
-        <Link
-          href="/login"
-          className="inline-block px-12 py-5 rounded-full font-black text-black text-lg transition-transform hover:scale-105"
-          style={{ background: LIME, boxShadow: '0 0 40px rgba(217,242,79,0.4)' }}
-        >
-          У меня есть код ⚡
-        </Link>
       </section>
 
       {/* Footer */}

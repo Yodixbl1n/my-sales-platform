@@ -37,7 +37,7 @@ const PLANS = [
     full: 9900,
     perMonth: 2700,
     features: [
-      "Все 8 модулей и 49 уроков",
+      "Все 8 модулей и 63 урока",
       "Метод СПИН и квалификация MEDDIC",
       "Архитектура ценности и офферы",
       "Отработка «дорого» и «я подумаю»",
@@ -56,17 +56,23 @@ const PLANS = [
 /* ---------- Перекатывающиеся цифры ---------- */
 function RollingDigit({ digit, delay = 0 }: { digit: number; delay?: number }) {
   return (
-    <span className="relative inline-block overflow-hidden" style={{ height: "1em", width: "1ch" }}>
+    <span
+      style={{
+        display: "inline-block",
+        height: "1em",
+        width: "0.65em",
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
       <motion.span
-        className="absolute left-0 top-0 flex w-full flex-col"
+        style={{ display: "flex", flexDirection: "column", position: "absolute", left: 0, top: 0, width: "100%" }}
         initial={false}
         animate={{ y: -digit + "em" }}
         transition={{ type: "spring", stiffness: 110, damping: 18, delay }}
       >
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-          <span key={n} className="block w-full text-center" style={{ height: "1em", lineHeight: "1em" }}>
-            {n}
-          </span>
+          <span key={n} style={{ display: "block", height: "1em", lineHeight: "1em", textAlign: "center" }}>{n}</span>
         ))}
       </motion.span>
     </span>
@@ -76,19 +82,18 @@ function RollingDigit({ digit, delay = 0 }: { digit: number; delay?: number }) {
 function RollingNumber({ value }: { value: number }) {
   const parts = value.toLocaleString("ru-RU").split("");
   return (
-    <span className="inline-flex" style={{ lineHeight: "1em" }}>
+    <span style={{ display: "inline-flex", lineHeight: "1em" }}>
       {parts.map((ch, i) =>
         /\d/.test(ch) ? (
           <RollingDigit key={i} digit={Number(ch)} delay={i * 0.04} />
         ) : (
-          <span key={i} className="inline-block" style={{ width: "0.35em" }} />
+          <span key={i} style={{ display: "inline-block", width: "0.35em" }} />
         )
       )}
     </span>
   );
 }
 
-/* ---------- Конфетти ---------- */
 function ConfettiBurst({ burst }: { burst: number }) {
   const pieces = useMemo(
     () =>
