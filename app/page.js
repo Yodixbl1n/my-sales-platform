@@ -87,27 +87,32 @@ export default function Landing() {
         <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
           ЧТО <span style={{ color: LIME }}>ВНУТРИ</span>
         </h2>
-        <p className="text-white/50 text-center text-lg mb-16">Полная система: от первого контакта до закрытия сделки</p>
+        <p className="text-white/50 text-center text-lg mb-3">Полная система: от первого контакта до закрытия сделки</p>
+        <p className="text-white/40 text-center text-sm tracking-widest mb-16">8 МОДУЛЕЙ • 40 УРОКОВ • 100% ПРАКТИКА</p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { num: '01', title: 'Базовые понятия', desc: '5 этапов продажи, установление контакта, выявление потребностей, презентация СВЭ' },
-            { num: '02', title: 'Метод СПИН', desc: 'Программирование диалога, квалификация клиента, фреймворк MEDDIC' },
+            { num: '02', title: 'Метод СПИН и MEDDIC', desc: 'Программирование диалога, квалификация клиента, карта ЛПР' },
             { num: '03', title: 'Архитектура ценности', desc: 'Инжиниринг пре-убеждения, математика ценности, безотказные офферы' },
             { num: '04', title: 'Работа с возражениями', desc: '«Дорого», «Я подумаю», «Нет денег» — формулы амортизации' },
             { num: '05', title: 'Максимизация прибыли', desc: 'Upsell, LTV, Lock-in Strategy, эффект приманки, торги' },
-            { num: '06', title: 'Нейрохакинг продаж', desc: 'Белфорт, Крис Восс, Сэндлер, дофаминовые петли, фреймы' },
+            { num: '06', title: 'Продвинутые техники', desc: 'Белфорт, тактическая эмпатия Криса Восса, Сэндлер, управление фреймами', badge: '🔒 ЗАКРЫТЫЙ БЛОК' },
+            { num: '07', title: 'Нейрохакинг продаж', desc: 'Дофаминовые петли, захват амигдалы, эффект собственности, окситоциновый взлом' },
+            { num: '08', title: 'Ментальное превосходство', desc: 'Адаптация языка, сторителлинг с действием, пресуппозиции, стратегическое влияние', badge: '⚡ МАСТЕР-КЛАСС' },
           ].map((item) => (
             <div
               key={item.num}
-              className="group p-8 rounded-3xl border border-white/10 bg-[#141414] hover:bg-[#1a1a1a] transition-all duration-300 hover:-translate-y-1"
-              style={{ borderColor: undefined }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = LIME)}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
+              className="group p-7 rounded-3xl border border-white/10 bg-[#141414] hover:bg-[#1a1a1a] hover:border-[#d9f24f] transition-all duration-300 hover:-translate-y-1 flex flex-col"
             >
-              <p className="text-5xl font-black mb-6 opacity-30 group-hover:opacity-100 transition-opacity" style={{ color: LIME }}>{item.num}</p>
-              <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-              <p className="text-white/50 leading-relaxed">{item.desc}</p>
+              <p className="text-5xl font-black mb-5 opacity-30 group-hover:opacity-100 transition-opacity" style={{ color: LIME }}>{item.num}</p>
+              <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+              <p className="text-white/50 leading-relaxed text-sm">{item.desc}</p>
+              {item.badge && (
+                <span className="mt-4 self-start rounded-full px-3 py-1 text-xs font-bold" style={{ background: 'rgba(217,242,79,0.12)', color: LIME }}>
+                  {item.badge}
+                </span>
+              )}
             </div>
           ))}
         </div>
