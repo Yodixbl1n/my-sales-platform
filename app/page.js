@@ -1,6 +1,7 @@
 'use client';
 import { AnimatedHero } from '@/components/ui/animated-hero';
 import { MagicText } from '@/components/ui/magic-text';
+import { PlatformShowcase } from '@/components/ui/platform-showcase';
 import { Pricing } from '@/components/ui/pricing';
 import { SocialProof, AboutAuthor } from '@/components/ui/social-proof';
 import { Marquee } from '@/components/ui/marquee';
@@ -94,7 +95,7 @@ export default function Landing() {
           ЧТО <span style={{ color: LIME }}>ВНУТРИ</span>
         </h2>
         <p className="text-white/50 text-center text-lg mb-3">Полная система: от первого контакта до закрытия сделки</p>
-        <p className="text-white/40 text-center text-sm tracking-widest mb-16">8 МОДУЛЕЙ • 63 УРОКА • 100% ПРАКТИКА</p>
+        <p className="text-white/40 text-center text-sm tracking-widest mb-16">8 МОДУЛЕЙ • 71 УРОК • 100% ПРАКТИКА</p>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
@@ -121,6 +122,10 @@ export default function Landing() {
       </section>
 
       <Pricing />
+
+      <div style={{ minHeight: "120vh" }}>
+        <PlatformShowcase />
+      </div>
 
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-6 pb-24">

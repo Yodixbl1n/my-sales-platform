@@ -2,6 +2,7 @@
 import React from "react";
 import { X, ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
 import { CONTENT_1_4 } from "@/lib/content-part1";
+import { PRACTICE } from "@/lib/content-practice";
 import { CONTENT_5_8 } from "@/lib/content-part2";
 
 const LIME = '#d9f24f';
@@ -53,6 +54,29 @@ export function LessonViewer({
             return <p key={i} className="leading-relaxed text-white/80">{line}</p>;
           })}
         </div>
+
+        {/* Блок практики после последнего урока модуля */}
+        {(() => {
+          const items = COURSE[lesson.m] || [];
+          const isLastLesson = lesson.l === items.length - 1;
+          const practice = PRACTICE[lesson.m];
+          if (!isLastLesson || !practice) return null;
+          return (
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <h4 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: LIME }}>
+                📚 {practice.title}
+              </h4>
+              <div className="space-y-2">
+                {practice.body.map((line, i) => {
+                  if (line.startsWith('## ')) return <h5 key={i} className="pt-2 text-base font-bold" style={{ color: LIME }}>{line.slice(3)}</h5>;
+                  if (line.startsWith('- ')) return <div key={i} className="flex gap-2 text-white/75 text-sm"><span style={{ color: LIME }}>•</span><span>{line.slice(2)}</span></div>;
+                  if (line.startsWith('💡 ')) return <div key={i} className="rounded-xl p-3 text-sm leading-relaxed text-white/85" style={{ background: 'rgba(217,242,79,0.08)', border: '1px solid rgba(217,242,79,0.25)' }}>{line.slice(2)}</div>;
+                  return <p key={i} className="leading-relaxed text-white/80 text-sm">{line}</p>;
+                })}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Нижние кнопки */}
         <div className="mt-6 flex gap-3 flex-shrink-0 border-t border-white/10 pt-5">
