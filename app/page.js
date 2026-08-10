@@ -97,9 +97,9 @@ export default function Landing() {
             { num: '03', title: 'Архитектура ценности', desc: 'Инжиниринг пре-убеждения, математика ценности, безотказные офферы' },
             { num: '04', title: 'Работа с возражениями', desc: '«Дорого», «Я подумаю», «Нет денег» — формулы амортизации' },
             { num: '05', title: 'Максимизация прибыли', desc: 'Upsell, LTV, Lock-in Strategy, эффект приманки, торги' },
-            { num: '06', title: 'Продвинутые техники', desc: 'Белфорт, тактическая эмпатия Криса Восса, Сэндлер, управление фреймами', badge: '🔒 ЗАКРЫТЫЙ БЛОК' },
+            { num: '06', title: 'Продвинутые техники', desc: 'Белфорт, тактическая эмпатия Криса Восса, Сэндлер, управление фреймами' },
             { num: '07', title: 'Нейрохакинг продаж', desc: 'Дофаминовые петли, захват амигдалы, эффект собственности, окситоциновый взлом' },
-            { num: '08', title: 'Ментальное превосходство', desc: 'Адаптация языка, сторителлинг с действием, пресуппозиции, стратегическое влияние', badge: '⚡ МАСТЕР-КЛАСС' },
+            { num: '08', title: 'Ментальное превосходство', desc: 'Адаптация языка, сторителлинг с действием, пресуппозиции, стратегическое влияние' },
           ].map((item) => (
             <div
               key={item.num}
@@ -108,11 +108,7 @@ export default function Landing() {
               <p className="text-5xl font-black mb-5 opacity-30 group-hover:opacity-100 transition-opacity" style={{ color: LIME }}>{item.num}</p>
               <h3 className="text-xl font-bold mb-3">{item.title}</h3>
               <p className="text-white/50 leading-relaxed text-sm">{item.desc}</p>
-              {item.badge && (
-                <span className="mt-4 self-start rounded-full px-3 py-1 text-xs font-bold" style={{ background: 'rgba(217,242,79,0.12)', color: LIME }}>
-                  {item.badge}
-                </span>
-              )}
+              
             </div>
           ))}
         </div>
