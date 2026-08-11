@@ -1,6 +1,5 @@
 "use client";
-import * as React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 
 export interface MagicTextProps {
   text: string;
@@ -9,10 +8,25 @@ export interface MagicTextProps {
 }
 
 export const MagicText: React.FC<MagicTextProps> = ({ text, className, speed = 0.03 }) => {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   const words = text.split(" ");
 
   return (
     <p
+      ref={ref}
       className={className || ""}
       style={{
         display: "flex",
@@ -31,16 +45,19 @@ export const MagicText: React.FC<MagicTextProps> = ({ text, className, speed = 0
       }}
     >
       {words.map((word, i) => (
-        <motion.span
+        <span
           key={i}
-          initial={{ opacity: 0.15, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-20px" }}
-          transition={{ duration: 0.4, delay: i * speed, ease: [0.22, 1, 0.36, 1] }}
-          style={{ display: "inline-block" }}
+          style={{
+            display: "inline-block",
+            opacity: visible ? 1 : 0.12,
+            filter: visible ? "blur(0px)" : "blur(6px)",
+            transform: visible ? "translateY(0px)" : "translateY(6px)",
+            transition:
+              "all 0.45s cubic-bezier(0.22, 1, 0.36, 1) " + Math.round(i * speed * 1000) + "ms",
+          }}
         >
           {word}
-        </motion.span>
+        </span>
       ))}
     </p>
   );

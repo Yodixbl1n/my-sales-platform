@@ -2,6 +2,8 @@
 import { AnimatedHero } from '@/components/ui/animated-hero';
 import { MagicText } from '@/components/ui/magic-text';
 import { PlatformShowcase } from '@/components/ui/platform-showcase';
+import { Reveal } from '@/components/ui/reveal';
+import { StaggeredReveal } from '@/components/ui/staggered-reveal';
 import { Pricing } from '@/components/ui/pricing';
 import { SocialProof, AboutAuthor } from '@/components/ui/social-proof';
 import { Marquee } from '@/components/ui/marquee';
@@ -91,11 +93,13 @@ export default function Landing() {
 
       {/* What inside */}
       <section className="max-w-7xl mx-auto px-6 py-24">
-        <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
+        <Reveal>
+          <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
           ЧТО <span style={{ color: LIME }}>ВНУТРИ</span>
         </h2>
         <p className="text-white/50 text-center text-lg mb-3">Полная система: от первого контакта до закрытия сделки</p>
         <p className="text-white/40 text-center text-sm tracking-widest mb-16">8 МОДУЛЕЙ • 71 УРОК • 100% ПРАКТИКА</p>
+        </Reveal>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
@@ -129,10 +133,12 @@ export default function Landing() {
 
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-6 pb-24">
-        <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
+        <Reveal>
+          <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
           ТВОЯ ТОЧКА <span className="neon" style={{ color: LIME }}>Б</span>
         </h2>
         <p className="text-white/50 text-center text-lg mb-14">Не мечта, а набор навыков, которые можно потрогать</p>
+        </Reveal>
 
         <div className="grid gap-6 md:grid-cols-2 mb-10">
           {[
