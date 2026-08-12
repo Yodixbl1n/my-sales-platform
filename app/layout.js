@@ -20,6 +20,10 @@ export const metadata = {
     siteName: "NP Sales",
     images: [{ url: SITE_URL + "/og.png", width: 1200, height: 630, alt: "NP Sales" }],
     type: "website",
+    icons: {
+      icon: "/favicon.svg",
+      apple: "/apple-touch-icon.svg",
+    },
     locale: "ru_RU",
   },
   twitter: {
