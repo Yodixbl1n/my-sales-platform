@@ -9,7 +9,7 @@ const inter = Inter({
 
 
 
-const SITE_URL = "https://my-sales-platform.vercel.app";
+const SITE_URL = "https://np-sales.vercel.app";
 
 export const metadata = {
   title: "NP Sales — система обучения продажам",
