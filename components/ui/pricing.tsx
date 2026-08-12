@@ -25,7 +25,7 @@ const PLANS = [
       "Базовые скрипты и шаблоны",
     ],
     cta: "Начать бесплатно",
-    href: "https://t.me/nikpavlovv",
+    href: '/dashboard', onClick: () => { localStorage.setItem('np_plan', 'free'); },
     popular: false,
     highlight: "Идеально для знакомства",
   },
@@ -251,7 +251,7 @@ function Pricing() {
 
               {/* CTA кнопка */}
               <Link
-                href={plan.href}
+                href={plan.href} onClick={plan.onClick}
                 target={plan.href.startsWith("http") ? "_blank" : undefined}
                 className={cn(
                   "mt-10 rounded-full py-4 text-center font-black text-lg transition-transform hover:scale-105",

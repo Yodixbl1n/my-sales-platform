@@ -5,6 +5,7 @@ import { PlatformShowcase } from '@/components/ui/platform-showcase';
 import { Reveal } from '@/components/ui/reveal';
 import { StaggeredReveal } from '@/components/ui/staggered-reveal';
 import { Pricing } from '@/components/ui/pricing';
+import { Faq } from '@/components/ui/faq';
 import { SocialProof, AboutAuthor } from '@/components/ui/social-proof';
 import { Marquee } from '@/components/ui/marquee';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
@@ -125,6 +126,8 @@ export default function Landing() {
         </div>
       </section>
 
+      <Faq />
+
       <Pricing />
 
       <div style={{ minHeight: "120vh" }}>
@@ -170,8 +173,8 @@ export default function Landing() {
             Забрать систему ⚡
           </Link>
           <a
-            href="https://t.me/nikpavlovv"
-            target="_blank"
+            href="/dashboard" onClick={() => localStorage.setItem("np_plan", "free")}
+           
             className="px-10 py-5 rounded-full font-bold text-lg border border-white/20 hover:border-white/50 transition-colors text-center"
           >
             Попробовать бесплатно

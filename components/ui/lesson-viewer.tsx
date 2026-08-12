@@ -25,7 +25,11 @@ export function LessonViewer({
 }) {
   if (!lesson) return null;
   const items = COURSE[lesson.m] || [];
-  const item = items[lesson.l];
+  const rawItem = items[lesson.l];
+  const practiceFallback = !rawItem && PRACTICE[lesson.m] && lesson.l === items.length
+    ? { title: PRACTICE[lesson.m].title, body: PRACTICE[lesson.m].body }
+    : null;
+  const item = rawItem || practiceFallback;
   if (!item) return null;
 
   return (
@@ -55,29 +59,7 @@ export function LessonViewer({
           })}
         </div>
 
-        {/* Блок практики после последнего урока модуля */}
-        {(() => {
-          const items = COURSE[lesson.m] || [];
-          const isLastLesson = lesson.l === items.length - 1;
-          const practice = PRACTICE[lesson.m];
-          if (!isLastLesson || !practice) return null;
-          return (
-            <div className="mt-8 pt-6 border-t border-white/10">
-              <h4 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: LIME }}>
-                📚 {practice.title}
-              </h4>
-              <div className="space-y-2">
-                {practice.body.map((line, i) => {
-                  if (line.startsWith('## ')) return <h5 key={i} className="pt-2 text-base font-bold" style={{ color: LIME }}>{line.slice(3)}</h5>;
-                  if (line.startsWith('- ')) return <div key={i} className="flex gap-2 text-white/75 text-sm"><span style={{ color: LIME }}>•</span><span>{line.slice(2)}</span></div>;
-                  if (line.startsWith('💡 ')) return <div key={i} className="rounded-xl p-3 text-sm leading-relaxed text-white/85" style={{ background: 'rgba(217,242,79,0.08)', border: '1px solid rgba(217,242,79,0.25)' }}>{line.slice(2)}</div>;
-                  return <p key={i} className="leading-relaxed text-white/80 text-sm">{line}</p>;
-                })}
-              </div>
-            </div>
-          );
-        })()}
-
+        
         {/* Нижние кнопки */}
         <div className="mt-6 flex gap-3 flex-shrink-0 border-t border-white/10 pt-5">
           <button

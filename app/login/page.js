@@ -75,7 +75,7 @@ export default function Login() {
       if (j.success) {
         setMessageType('success');
         setMessage('Аккаунт создан! Перенаправляю...');
-        setTimeout(() => { location.href = '/dashboard'; }, 1000);
+        setTimeout(() => { localStorage.setItem('np_plan','black'); location.href = '/dashboard'; }, 1000);
       } else {
         setMessageType('error');
         setMessage(j.message || 'Ошибка регистрации');
@@ -137,7 +137,7 @@ export default function Login() {
         </Link>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-6 py-12">
+      <main className="flex-col gap-6 flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
           <div className="rounded-3xl border border-white/10 bg-[#141414] p-10">
             <div className="text-center mb-8">
@@ -285,6 +285,11 @@ export default function Login() {
             )}
           </div>
         </div>
+              <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-4 text-left text-xs text-white/50 leading-relaxed">
+          <p className="font-bold text-white mb-1">Что такое инвайт-код?</p>
+          <p>Инвайт-код — специальный код, открывающий доступ к полному курсу. Напиши мне в Telegram, оплати курс — и получи код в ответ. Введи его здесь и занимайся без ограничений.</p>
+        </div>
+        
       </main>
 
       <footer className="py-8 text-center text-white/30 text-sm">
