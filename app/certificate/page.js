@@ -155,7 +155,7 @@ export default function CertificatePage() {
           </motion.p>
 
           <motion.p variants={item} className="text-white/70 leading-relaxed max-w-xl mx-auto mb-10">
-            полностью прошёл(ла) курс «Эксперт по продажам»: 8 модулей, 71 урок, сдал(а) все итоговые тесты — от установления контакта до продвинутых техник переговоров.
+            успешно завершил(а) обучение по программе «Эксперт по продажам», в полном объёме освоив 8 модулей и 71 урок курса, и подтвердил(а) свои знания, сдав все итоговые тесты.
           </motion.p>
 
           <motion.div variants={item} className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>

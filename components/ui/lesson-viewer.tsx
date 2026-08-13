@@ -15,6 +15,7 @@ export function LessonViewer({
   onBack,
   isComplete,
   isFirst,
+  inline = false,
 }: {
   lesson: { m: number; l: number } | null;
   onClose: () => void;
@@ -22,6 +23,7 @@ export function LessonViewer({
   onBack: () => void;
   isComplete: boolean;
   isFirst: boolean;
+  inline?: boolean;
 }) {
   if (!lesson) return null;
   const items = COURSE[lesson.m] || [];
@@ -33,10 +35,10 @@ export function LessonViewer({
   if (!item) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.85)' }} onClick={onClose}>
+    <div className={inline ? "" : "fixed inset-0 z-50 flex items-center justify-center p-4"} style={inline ? {} : { background: 'rgba(0,0,0,0.85)' }} onClick={inline ? undefined : onClose}>
       <div
-        className="w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414] p-8 flex flex-col"
-        onClick={(e) => e.stopPropagation()}
+        className={inline ? "w-full rounded-3xl border border-white/10 bg-[#141414] p-8" : "w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414] p-8 flex flex-col"}
+        onClick={inline ? undefined : (e) => e.stopPropagation()}
       >
         {/* Шапка */}
         <div className="mb-6 flex items-start justify-between gap-4 flex-shrink-0">

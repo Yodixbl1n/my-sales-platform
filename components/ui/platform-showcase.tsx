@@ -1,83 +1,65 @@
-"use client";
-import React from "react";
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
+import { ContainerScroll } from './container-scroll-animation';
 
-const LIME = "#d9f24f";
+const LIME = '#d9f24f';
 
 function DashboardMock() {
-  const modules = [
-    { n: 1, t: "Введение и базовые понятия", s: "done" },
-    { n: 2, t: "Программирование диалога (СПИН)", s: "done" },
-    { n: 3, t: "Архитектура ценности", s: "active" },
-    { n: 4, t: "Архитектура возражений", s: "locked" },
-    { n: 5, t: "Максимизация прибыли", s: "locked" },
-    { n: 6, t: "Продвинутые техники", s: "locked" },
-  ];
-
+  const modules = ['Введение', 'СПИН-диалог', 'Ценность', 'Возражения', 'Прибыль', 'Техники', 'Нейро', 'Мастерство'];
   return (
-    <div className="bg-[#0a0a0a] p-6 md:p-10 text-left text-white">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center font-black text-black text-xs" style={{ background: LIME }}>NP</div>
-          <span className="font-bold text-sm">NP<span style={{ color: LIME }}>Sales</span></span>
+    <div className="flex bg-[#0a0a0a] text-white overflow-hidden" style={{ height: 520 }}>
+      {/* Сайдбар — модули слева */}
+      <div className="w-52 bg-[#0f0f0f] border-r border-white/10 p-4 hidden sm:flex flex-col flex-shrink-0">
+        <div className="flex items-center gap-2 mb-5">
+          <div className="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-black text-black" style={{ background: LIME }}>NP</div>
+          <span className="font-bold text-xs tracking-tight">NPSales</span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-white/50">
-          <div className="w-6 h-6 rounded-full" style={{ background: "linear-gradient(135deg,#a855f7,#ec4899)" }} />
-          <span>Nik</span>
-        </div>
-      </div>
-
-      <h2 className="text-2xl md:text-3xl font-black tracking-tighter mb-1">
-        Привет, <span style={{ color: LIME }}>Nik</span>! 👋
-      </h2>
-      <p className="text-white/50 text-sm mb-6">Готов прокачать продажи сегодня?</p>
-
-      <div className="grid gap-4 md:grid-cols-3 mb-8">
-        <div className="rounded-2xl p-5" style={{ background: 'radial-gradient(130% 130% at 85% 0%, #7c3aed 0%, #5b21b6 40%, #0f766e 80%)' }}>
-          <p className="text-xs text-white/70 mb-1">ТВОЙ ПРОГРЕСС</p>
-          <p className="text-4xl font-black" style={{ color: LIME }}>33<span className="text-xl">%</span></p>
-          <div className="h-1.5 rounded-full bg-white/10 mt-3 overflow-hidden">
-            <div className="h-full rounded-full" style={{ width: "33%", background: LIME }} />
-          </div>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-[#141414] p-5">
-          <p className="text-xs text-white/50 mb-1">ВСЕГО УРОКОВ</p>
-          <p className="text-4xl font-black" style={{ color: '#e879f9' }}>71</p>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-[#141414] p-5">
-          <p className="text-xs text-white/50 mb-1">МОДУЛЕЙ</p>
-          <p className="text-4xl font-black">8</p>
-        </div>
-      </div>
-
-      <h3 className="text-lg font-bold mb-3">Программа курса</h3>
-      <div className="space-y-2">
-        {modules.map((m) => (
-          <div
-            key={m.n}
-            className="flex items-center gap-3 rounded-xl px-4 py-3"
-            style={{
-              background: m.s === "active" ? "rgba(217,242,79,0.08)" : "rgba(255,255,255,0.04)",
-              border: m.s === "active" ? "1px solid " + LIME : "1px solid rgba(255,255,255,0.06)",
-            }}
-          >
-            <span
-              className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
-              style={{
-                background: m.s === "done" ? LIME : "rgba(217,242,79,0.12)",
-                color: m.s === "done" ? "#0a0a0a" : LIME,
-              }}
-            >
-              {m.s === "done" ? "✓" : m.s === "locked" ? "🔒" : m.n}
-            </span>
-            <span className={"text-xs md:text-sm flex-1 " + (m.s === "locked" ? "text-white/30" : "text-white/80")}>{m.t}</span>
-            {m.s === "active" && (
-              <span className="text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-full" style={{ background: LIME, color: "#0a0a0a" }}>
-                СЕЙЧАС
+        <div className="space-y-1">
+          {modules.map((t, i) => (
+            <div key={i} className="flex items-center gap-2 rounded-lg px-2 py-1.5" style={{ background: i === 0 ? 'rgba(217,242,79,0.08)' : 'transparent' }}>
+              <span className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0" style={{ background: i < 3 ? LIME : 'rgba(217,242,79,0.12)', color: i < 3 ? '#0a0a0a' : LIME }}>
+                {i < 3 ? '✓' : i + 1}
               </span>
-            )}
+              <span className="text-[10px] truncate" style={{ color: i === 0 ? '#fff' : 'rgba(255,255,255,0.5)' }}>{t}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Контент справа */}
+      <div className="flex-1 p-5 md:p-6 overflow-hidden">
+        {/* Три карточки статистики сверху */}
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          <div className="rounded-2xl p-3 md:p-4" style={{ background: 'radial-gradient(130% 130% at 85% 0%, #7c3aed 0%, #5b21b6 40%, #0f766e 80%)' }}>
+            <p className="text-[9px] md:text-[10px] text-white/70 mb-1">ТВОЙ ПРОГРЕСС</p>
+            <p className="text-xl md:text-2xl font-black tracking-tighter" style={{ color: LIME }}>34<span className="text-xs md:text-sm">%</span></p>
+            <p className="text-[8px] md:text-[9px] text-white/60 mt-1">24 из 71 уроков</p>
           </div>
-        ))}
+          <div className="rounded-2xl p-3 md:p-4 border border-white/10 bg-[#141414]">
+            <p className="text-[9px] md:text-[10px] text-white/60 mb-1">ВСЕГО УРОКОВ</p>
+            <p className="text-xl md:text-2xl font-black tracking-tighter" style={{ color: '#e879f9' }}>71</p>
+            <p className="text-[8px] md:text-[9px] text-white/40 mt-1">100% практика</p>
+          </div>
+          <div className="rounded-2xl p-3 md:p-4 border border-white/10 bg-[#141414]">
+            <p className="text-[9px] md:text-[10px] text-white/60 mb-1">МОДУЛЕЙ</p>
+            <p className="text-xl md:text-2xl font-black tracking-tighter">8</p>
+            <p className="text-[8px] md:text-[9px] text-white/40 mt-1">от базы до мастерства</p>
+          </div>
+        </div>
+
+        {/* Урок по центру */}
+        <div className="rounded-2xl border border-white/10 bg-[#141414] p-4 md:p-5">
+          <p className="text-[9px] md:text-[10px] tracking-widest mb-1" style={{ color: LIME }}>МОДУЛЬ 1 · УРОК 4 / 11</p>
+          <p className="font-bold text-xs md:text-sm mb-3">Установление контакта: вербальное и невербальное</p>
+          <div className="space-y-2 mb-4">
+            <div className="h-2 rounded-full bg-white/10 w-full"></div>
+            <div className="h-2 rounded-full bg-white/10 w-5/6"></div>
+            <div className="h-2 rounded-full bg-white/10 w-4/6"></div>
+            <div className="h-2 rounded-full w-3/6" style={{ background: 'rgba(217,242,79,0.15)' }}></div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex-1 h-9 rounded-full border border-white/20 flex items-center justify-center text-[10px] text-white/60">← Предыдущий урок</div>
+            <div className="flex-1 h-9 rounded-full flex items-center justify-center text-[10px] font-black text-black" style={{ background: LIME }}>✓ Урок пройден → Следующий</div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -85,20 +67,22 @@ function DashboardMock() {
 
 export function PlatformShowcase() {
   return (
-    <ContainerScroll
-      titleComponent={
-        <>
-          <p className="text-xs md:text-sm tracking-[0.3em] text-white/50 mb-4">ВНУТРИ ПЛАТФОРМЫ</p>
-          <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white">
-            ТВОЙ ЛИЧНЫЙ <span style={{ color: LIME }}>КАБИНЕТ</span>
-          </h2>
-          <p className="text-white/50 mt-4 text-base md:text-lg max-w-2xl mx-auto">
-            Прогресс, тесты и последовательное открытие модулей — всё в одном месте
-          </p>
-        </>
-      }
-    >
-      <DashboardMock />
-    </ContainerScroll>
+    <section className="relative">
+      <ContainerScroll
+        titleComponent={
+          <>
+            <p className="text-xs md:text-sm tracking-[0.3em] text-white/50 mb-4">ВНУТРИ ПЛАТФОРМЫ</p>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white">
+              ТВОЙ ЛИЧНЫЙ <span style={{ color: LIME }}>КАБИНЕТ</span>
+            </h2>
+            <p className="text-white/50 mt-4 text-base md:text-lg max-w-2xl mx-auto">
+              Модули и уроки слева, прогресс сверху, урок по центру — всё в одном месте
+            </p>
+          </>
+        }
+      >
+        <DashboardMock />
+      </ContainerScroll>
+    </section>
   );
 }
