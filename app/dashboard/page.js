@@ -412,10 +412,13 @@ export default function Dashboard() {
           <div className="w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414] p-8">
             <ModuleQuiz
               moduleId={quizModule}
-              onComplete={() => {
+              passed={completed.includes(quizModule)}
+              onPass={() => {
                 completeModule(quizModule);
-                setQuizModule(null);
-                if (isFree) setUpsell(true);
+                setTimeout(() => {
+                  setQuizModule(null);
+                  if (isFree) setUpsell(true);
+                }, 1500);
               }}
             />
           </div>
