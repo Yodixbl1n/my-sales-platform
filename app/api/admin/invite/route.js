@@ -15,7 +15,7 @@ export async function POST(request) {
     const { type } = await request.json();
     const prefix = type === 'black' ? 'NP-BLACK' : 'NP-FREE';
     const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-    const code = \`\${prefix}-\${random}\`;
+    const code = prefix + '-' + random;
     const { error } = await supabase.from('invite_codes').insert({ code, type, created_at: new Date().toISOString() });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ code });
