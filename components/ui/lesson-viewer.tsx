@@ -2,7 +2,7 @@
 import React from "react";
 import { X, ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
 import { CONTENT_1_4 } from "@/lib/content-part1";
-import { PRACTICE } from "@/lib/content-practice";
+import { CONTENT_PRACTICE as PRACTICE } from "@/lib/content-practice";
 import { CONTENT_5_8 } from "@/lib/content-part2";
 
 const LIME = '#d9f24f';

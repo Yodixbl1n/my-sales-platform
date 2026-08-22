@@ -35,7 +35,7 @@ function DashboardMock() {
           </div>
           <div className="rounded-2xl p-3 md:p-4 border border-white/10 bg-[#141414]">
             <p className="text-[9px] md:text-[10px] text-white/60 mb-1">ВСЕГО УРОКОВ</p>
-            <p className="text-xl md:text-2xl font-black tracking-tighter" style={{ color: '#e879f9' }}>71</p>
+            <p className="text-xl md:text-2xl font-black tracking-tighter" style={{ color: '#e879f9' }}>81</p>
             <p className="text-[8px] md:text-[9px] text-white/40 mt-1">100% практика</p>
           </div>
           <div className="rounded-2xl p-3 md:p-4 border border-white/10 bg-[#141414]">
