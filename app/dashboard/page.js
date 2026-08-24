@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { LessonViewer } from '@/components/ui/lesson-viewer';
 import { ModuleQuiz } from '@/components/ui/module-quiz';
+import { X } from 'lucide-react';
 import { Loader } from '@/components/ui/loader';
 
 const LIME = '#d9f24f';
@@ -329,19 +330,24 @@ export default function Dashboard() {
 
       {/* ===== МОДАЛКИ ===== */}
       {quizModule && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.85)' }}>
-          <div className="w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414] p-8">
-            <ModuleQuiz
-              moduleId={quizModule}
-              passed={completed.includes(quizModule)}
-              onPass={() => {
-                completeModule(quizModule);
-                setTimeout(() => {
-                  setQuizModule(null);
-                  if (isFree) setUpsell(true);
-                }, 1500);
-              }}
-            />
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.85)' }} onClick={() => setQuizModule(null)}>
+          <div className="w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414] flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-5 border-b border-white/10 flex-shrink-0">
+              <h3 className="text-lg font-black">📝 Тест по модулю {quizModule}</h3>
+              <button onClick={() => setQuizModule(null)} className="rounded-full p-2 hover:bg-white/10 text-white/70 hover:text-white transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 flex-1 overflow-y-auto">
+              <ModuleQuiz
+                moduleId={quizModule}
+                passed={completed.includes(quizModule)}
+                onPass={() => {
+                  completeModule(quizModule);
+                }}
+                onClose={() => setQuizModule(null)}
+              />
+            </div>
           </div>
         </div>
       )}
