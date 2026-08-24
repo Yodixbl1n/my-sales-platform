@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from "react";
-import { Award, CheckCircle2, XCircle } from "lucide-react";
+import { Award, CheckCircle2, XCircle, RotateCcw, X } from "lucide-react";
 
 const LIME = '#d9f24f';
 const RED = '#fca5a5';
@@ -156,17 +156,39 @@ const QUIZZES: Record<number, Q[]> = {
   ],
 };
 
-export function ModuleQuiz({ moduleId, passed, onPass }: { moduleId: number; passed: boolean; onPass: () => void }) {
+export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: number; passed: boolean; onPass: () => void; onClose?: () => void }) {
   const questions = QUIZZES[moduleId] || [];
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [result, setResult] = useState<number | null>(null);
   const PASS = Math.ceil(questions.length * 0.7);
 
+  function reset() {
+    setAnswers({});
+    setResult(null);
+  }
+
   if (passed) {
     return (
-      <div className="mt-4 p-4 rounded-2xl flex items-center gap-3" style={{ background: 'rgba(217,242,79,0.1)' }}>
-        <Award className="w-5 h-5" style={{ color: LIME }} />
-        <span className="text-sm font-bold" style={{ color: LIME }}>Тест пройден — следующий модуль открыт!</span>
+      <div className="p-4 rounded-2xl border border-white/10 bg-black/30">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <Award className="w-5 h-5" style={{ color: LIME }} />
+            <span className="text-sm font-bold" style={{ color: LIME }}>Тест пройден — следующий модуль открыт!</span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={reset}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-white/20 hover:border-white/40 text-white/80 transition-colors"
+            >
+              <RotateCcw className="w-3.5 h-3.5" /> Пройти заново
+            </button>
+            {onClose && (
+              <button onClick={onClose} className="rounded-full p-1.5 hover:bg-white/10 text-white/60 hover:text-white transition-colors">
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     );
   }
@@ -179,13 +201,25 @@ export function ModuleQuiz({ moduleId, passed, onPass }: { moduleId: number; pas
   }
 
   const isSubmitted = result !== null;
+  const answeredCount = Object.keys(answers).length;
 
   return (
-    <div className="mt-4 p-5 rounded-2xl border border-white/10 bg-black/30">
-      <p className="font-bold mb-1">📝 Тест по модулю {moduleId}</p>
-      <p className="text-xs text-white/40 mb-4">
-        Вопросов: {questions.length}. Для зачёта нужно минимум {PASS} правильных — тогда откроется следующий модуль.
-      </p>
+    <div className="p-5 rounded-2xl border border-white/10 bg-black/30">
+      {/* Шапка теста с кнопкой закрытия */}
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div>
+          <p className="font-bold">📝 Тест по модулю {moduleId}</p>
+          <p className="text-xs text-white/40 mt-1">
+            Вопросов: {questions.length}. Для зачёта нужно минимум {PASS} правильных.
+          </p>
+        </div>
+        {onClose && (
+          <button onClick={onClose} className="rounded-full p-1.5 hover:bg-white/10 text-white/60 hover:text-white transition-colors flex-shrink-0">
+            <X className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+
       {questions.map((q, qi) => {
         const userAnswer = answers[qi];
         const isCorrect = userAnswer === q.correct;
@@ -244,16 +278,36 @@ export function ModuleQuiz({ moduleId, passed, onPass }: { moduleId: number; pas
           </div>
         );
       })}
-      {!isSubmitted && (
-        <button
-          onClick={submit}
-          disabled={Object.keys(answers).length < questions.length}
-          className="px-6 py-2.5 rounded-full font-bold text-black disabled:opacity-40"
-          style={{ background: LIME }}
-        >
-          Проверить ответы ({Object.keys(answers).length}/{questions.length})
-        </button>
-      )}
+
+      {/* Кнопки действий */}
+      <div className="flex gap-2 flex-wrap mt-4 pt-4 border-t border-white/10">
+        {!isSubmitted ? (
+          <button
+            onClick={submit}
+            disabled={answeredCount < questions.length}
+            className="px-6 py-2.5 rounded-full font-bold text-black disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ background: LIME }}
+          >
+            Проверить ответы ({answeredCount}/{questions.length})
+          </button>
+        ) : (
+          <>
+            <button
+              onClick={reset}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white border border-white/20 hover:border-white/40 transition-colors"
+            >
+              <RotateCcw className="w-4 h-4" /> Пройти заново
+            </button>
+            {result >= PASS && (
+              <span className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold" style={{ background: 'rgba(217,242,79,0.15)', color: LIME }}>
+                <CheckCircle2 className="w-4 h-4" /> Тест пройден!
+              </span>
+            )}
+          </>
+        )}
+      </div>
+
+      {/* Результат */}
       {isSubmitted && (
         <div className="mt-4 p-4 rounded-2xl" style={{ background: result >= PASS ? 'rgba(217,242,79,0.1)' : 'rgba(252,165,165,0.08)' }}>
           <p className="text-sm font-semibold mb-1" style={{ color: result >= PASS ? LIME : RED }}>
@@ -264,7 +318,7 @@ export function ModuleQuiz({ moduleId, passed, onPass }: { moduleId: number; pas
           <p className="text-xs text-white/60">
             {result >= PASS
               ? 'Поздравляем! Следующий модуль разблокирован.'
-              : 'Пересмотри модуль и попробуй снова. Правильные ответы подсвечены зелёным.'}
+              : 'Пересмотри модуль и нажми «Пройти заново». Правильные ответы подсвечены зелёным.'}
           </p>
         </div>
       )}
