@@ -35,14 +35,14 @@ export function LessonViewer({
   if (!item) return null;
 
   return (
-    <div className={inline ? "" : "fixed inset-0 z-50 flex items-center justify-center p-4"} style={inline ? {} : { background: 'rgba(0,0,0,0.85)' }} onClick={inline ? undefined : onClose}>
+    <div className={inline ? "" : "fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"} style={inline ? {} : { background: 'rgba(0,0,0,0.85)' }} onClick={inline ? undefined : onClose}>
       <div
-        className={inline ? "w-full rounded-3xl border border-white/10 bg-[#141414] p-8" : "w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414] p-8 flex flex-col"}
+        className={inline ? "w-full rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-4 sm:p-8" : "w-full max-w-2xl max-h-[95vh] sm:max-h-[85vh] overflow-y-auto rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-8 flex flex-col"}
         onClick={inline ? undefined : (e) => e.stopPropagation()}
       >
         {/* Шапка */}
         <div className="mb-6 flex items-start justify-between gap-4 flex-shrink-0">
-          <h3 className="text-2xl font-black leading-tight">
+          <h3 className="text-lg sm:text-2xl font-black leading-tight">
             <span style={{ color: LIME }}>{lesson.m}.{lesson.l + 1}</span> — {item.title}
           </h3>
           <button onClick={onClose} className="rounded-full p-2 hover:bg-white/10 flex-shrink-0">
@@ -63,18 +63,18 @@ export function LessonViewer({
 
         
         {/* Нижние кнопки */}
-        <div className="mt-6 flex gap-3 flex-shrink-0 border-t border-white/10 pt-5">
+        <div className="mt-4 sm:mt-6 flex gap-2 sm:gap-3 flex-shrink-0 border-t border-white/10 pt-3 sm:pt-5">
           <button
             onClick={onBack}
             disabled={isFirst}
-            className="flex items-center gap-2 px-5 py-3 rounded-full font-bold border border-white/20 text-white/80 hover:border-white/40 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold border border-white/20 text-white/80 hover:border-white/40 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Назад
           </button>
           <button
             onClick={onComplete}
             disabled={isComplete}
-            className="ml-auto flex items-center gap-2 px-6 py-3 rounded-full font-black text-black transition-transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="ml-auto flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-black text-black transition-transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
             style={{ background: LIME }}
           >
             {isComplete ? (

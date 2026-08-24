@@ -231,11 +231,11 @@ export default function Dashboard() {
       {/* ===== ОСНОВНАЯ ОБЛАСТЬ ===== */}
       <main className="flex-1 min-w-0">
         {/* Верхняя панель */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 sticky top-0 bg-[#0a0a0a]/90 backdrop-blur z-20">
+        <div className="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-b border-white/10 sticky top-0 bg-[#0a0a0a]/90 backdrop-blur z-20">
           <div className="flex items-center gap-3">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden w-9 h-9 rounded-lg border border-white/15 flex items-center justify-center">☰</button>
             <div>
-              <p className="font-bold leading-tight">Привет, {displayName}! 👋</p>
+              <p className="text-sm sm:text-base font-bold leading-tight">Привет, {displayName}! 👋</p>
               <p className="text-xs text-white/40">Готов прокачать продажи сегодня?</p>
             </div>
           </div>
@@ -260,31 +260,31 @@ export default function Dashboard() {
 
         {/* Баннер сертификата */}
         {completed.length === modules.length && (
-          <a href="/certificate" className="block mx-6 mt-6 rounded-2xl p-5 text-center font-black text-black transition-transform hover:scale-[1.01]" style={{ background: LIME, boxShadow: '0 0 40px rgba(217,242,79,0.35)' }}>
+          <a href="/certificate" className="block mx-3 sm:mx-6 mt-3 sm:mt-6 rounded-2xl p-4 sm:p-5 text-center font-black text-black transition-transform hover:scale-[1.01]" style={{ background: LIME, boxShadow: '0 0 40px rgba(217,242,79,0.35)' }}>
             🏆 ВСЕ МОДУЛИ ПРОЙДЕНЫ — ЗАБРАТЬ СЕРТИФИКАТ
           </a>
         )}
 
-        <div className="max-w-5xl mx-auto px-6 py-8">
+        <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
           {/* ===== ТРИ КАРТОЧКИ СТАТИСТИКИ (вернул) ===== */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            <div className="rounded-3xl p-6" style={{ background: 'radial-gradient(130% 130% at 85% 0%, #7c3aed 0%, #5b21b6 40%, #0f766e 80%)' }}>
-              <p className="text-xs text-white/70 mb-1">ТВОЙ ПРОГРЕСС</p>
-              <p className="text-5xl font-black tracking-tighter" style={{ color: LIME }}>
-                {progressPercent}<span className="text-2xl">%</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6" style={{ background: 'radial-gradient(130% 130% at 85% 0%, #7c3aed 0%, #5b21b6 40%, #0f766e 80%)' }}>
+              <p className="text-[10px] sm:text-xs text-white/70 mb-1">ТВОЙ ПРОГРЕСС</p>
+              <p className="text-3xl sm:text-5xl font-black tracking-tighter" style={{ color: LIME }}>
+                {progressPercent}<span className="text-xl sm:text-2xl">%</span>
               </p>
-              <p className="text-xs text-white/60 mt-2">{completedLessons.length} из {totalLessons} уроков</p>
-              <p className="text-xs text-white/60">{completed.length} из {modules.length} модулей</p>
+              <p className="text-[10px] sm:text-xs text-white/60 mt-2">{completedLessons.length} из {totalLessons} уроков</p>
+              <p className="text-[10px] sm:text-xs text-white/60">{completed.length} из {modules.length} модулей</p>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-[#141414] p-6 flex flex-col justify-between">
-              <p className="text-xs text-white/60 mb-1">ВСЕГО УРОКОВ</p>
-              <p className="text-5xl font-black tracking-tighter" style={{ color: '#e879f9' }}>{totalLessons}</p>
-              <p className="text-xs text-white/40 mt-2">100% практика</p>
+            <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-4 sm:p-6 flex flex-col justify-between">
+              <p className="text-[10px] sm:text-xs text-white/60 mb-1">ВСЕГО УРОКОВ</p>
+              <p className="text-3xl sm:text-5xl font-black tracking-tighter" style={{ color: '#e879f9' }}>{totalLessons}</p>
+              <p className="text-[10px] sm:text-xs text-white/40 mt-2">100% практика</p>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-[#141414] p-6 flex flex-col justify-between">
-              <p className="text-xs text-white/60 mb-1">МОДУЛЕЙ</p>
-              <p className="text-5xl font-black tracking-tighter">{modules.length}</p>
-              <p className="text-xs text-white/40 mt-2">Ты становишься экспертом</p>
+            <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-4 sm:p-6 flex flex-col justify-between">
+              <p className="text-[10px] sm:text-xs text-white/60 mb-1">МОДУЛЕЙ</p>
+              <p className="text-3xl sm:text-5xl font-black tracking-tighter">{modules.length}</p>
+              <p className="text-[10px] sm:text-xs text-white/40 mt-2">Ты становишься экспертом</p>
             </div>
           </div>
 
@@ -299,18 +299,18 @@ export default function Dashboard() {
               </p>
               <LessonViewer inline lesson={openLesson} onClose={() => setOpenLesson(null)} onComplete={() => markLessonComplete(openLesson.m, openLesson.l, false)} />
 
-              <div className="flex flex-col sm:flex-row gap-3 mt-10">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-6 sm:mt-10">
                 <button
                   onClick={() => openLesson.l > 0 && setOpenLesson({ m: openLesson.m, l: openLesson.l - 1 })}
                   disabled={openLesson.l === 0}
-                  className="flex-1 px-6 py-4 rounded-full font-bold border transition-colors"
+                  className="flex-1 px-4 sm:px-6 py-2.5 sm:py-4 rounded-full text-sm sm:text-base font-bold border transition-colors"
                   style={{ borderColor: 'rgba(255,255,255,0.2)', color: openLesson.l === 0 ? 'rgba(255,255,255,0.25)' : '#fff', cursor: openLesson.l === 0 ? 'not-allowed' : 'pointer' }}
                 >
                   ← Предыдущий урок
                 </button>
                 <button
                   onClick={() => markLessonComplete(openLesson.m, openLesson.l)}
-                  className="flex-1 px-6 py-4 rounded-full font-black text-black transition-transform hover:scale-[1.02]"
+                  className="flex-1 px-4 sm:px-6 py-2.5 sm:py-4 rounded-full text-sm sm:text-base font-black text-black transition-transform hover:scale-[1.02]"
                   style={{ background: LIME, boxShadow: '0 0 30px rgba(217,242,79,0.3)' }}
                 >
                   ✓ Урок пройден → Следующий
@@ -318,8 +318,8 @@ export default function Dashboard() {
               </div>
             </div>
           ) : (
-            <div className="rounded-3xl border border-white/10 bg-[#141414] p-10 text-center">
-              <p className="text-2xl font-black tracking-tight mb-2">Выбери урок слева 👈</p>
+            <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-10 text-center">
+              <p className="text-xl sm:text-2xl font-black tracking-tight mb-2">Выбери урок слева 👈</p>
               <p className="text-white/50">Нажми на модуль, затем на урок — и он откроется прямо здесь.</p>
             </div>
           )}
@@ -331,14 +331,14 @@ export default function Dashboard() {
       {/* ===== МОДАЛКИ ===== */}
       {quizModule && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.85)' }} onClick={() => setQuizModule(null)}>
-          <div className="w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414] flex flex-col" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-5 border-b border-white/10 flex-shrink-0">
-              <h3 className="text-lg font-black">📝 Тест по модулю {quizModule}</h3>
+          <div className="w-full max-w-xl max-h-[90vh] sm:max-h-[85vh] overflow-y-auto rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between p-3 sm:p-5 border-b border-white/10 flex-shrink-0">
+              <h3 className="text-base sm:text-lg font-black">📝 Тест по модулю {quizModule}</h3>
               <button onClick={() => setQuizModule(null)} className="rounded-full p-2 hover:bg-white/10 text-white/70 hover:text-white transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="p-6 flex-1 overflow-y-auto">
+            <div className="p-3 sm:p-6 flex-1 overflow-y-auto">
               <ModuleQuiz
                 moduleId={quizModule}
                 passed={completed.includes(quizModule)}

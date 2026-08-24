@@ -169,16 +169,16 @@ export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: nu
 
   if (passed) {
     return (
-      <div className="p-4 rounded-2xl border border-white/10 bg-black/30">
+      <div className="p-3 sm:p-4 rounded-2xl border border-white/10 bg-black/30">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <Award className="w-5 h-5" style={{ color: LIME }} />
-            <span className="text-sm font-bold" style={{ color: LIME }}>Тест пройден — следующий модуль открыт!</span>
+            <span className="text-xs sm:text-sm font-bold" style={{ color: LIME }}>Тест пройден — следующий модуль открыт!</span>
           </div>
           <div className="flex gap-2">
             <button
               onClick={reset}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-white/20 hover:border-white/40 text-white/80 transition-colors"
+              className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold border border-white/20 hover:border-white/40 text-white/80 transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" /> Пройти заново
             </button>
@@ -204,7 +204,7 @@ export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: nu
   const answeredCount = Object.keys(answers).length;
 
   return (
-    <div className="p-5 rounded-2xl border border-white/10 bg-black/30">
+    <div className="p-3 sm:p-5 rounded-2xl border border-white/10 bg-black/30">
       {/* Шапка теста с кнопкой закрытия */}
       <div className="flex items-start justify-between gap-3 mb-4">
         <div>
@@ -225,7 +225,7 @@ export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: nu
         const isCorrect = userAnswer === q.correct;
         return (
           <div key={qi} className="mb-4">
-            <p className="text-sm font-semibold mb-2 flex items-center gap-2">
+            <p className="text-xs sm:text-sm font-semibold mb-2 flex items-center gap-2">
               <span>{qi + 1}. {q.q}</span>
               {isSubmitted && (
                 isCorrect
@@ -259,7 +259,7 @@ export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: nu
                     key={oi}
                     onClick={() => !isSubmitted && setAnswers((a) => ({ ...a, [qi]: oi }))}
                     disabled={isSubmitted}
-                    className="w-full text-left px-3 py-2 rounded-xl text-sm transition-colors border flex items-center gap-2 disabled:cursor-default"
+                    className="w-full text-left px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm transition-colors border flex items-center gap-2 disabled:cursor-default"
                     style={{
                       borderColor,
                       background: bgColor,
@@ -285,7 +285,7 @@ export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: nu
           <button
             onClick={submit}
             disabled={answeredCount < questions.length}
-            className="px-6 py-2.5 rounded-full font-bold text-black disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-black disabled:opacity-40 disabled:cursor-not-allowed"
             style={{ background: LIME }}
           >
             Проверить ответы ({answeredCount}/{questions.length})
@@ -294,12 +294,12 @@ export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: nu
           <>
             <button
               onClick={reset}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white border border-white/20 hover:border-white/40 transition-colors"
+              className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-white border border-white/20 hover:border-white/40 transition-colors"
             >
               <RotateCcw className="w-4 h-4" /> Пройти заново
             </button>
             {result >= PASS && (
-              <span className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold" style={{ background: 'rgba(217,242,79,0.15)', color: LIME }}>
+              <span className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold" style={{ background: 'rgba(217,242,79,0.15)', color: LIME }}>
                 <CheckCircle2 className="w-4 h-4" /> Тест пройден!
               </span>
             )}
