@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Junk files
+ngrok
+ngrok.zip
+fix_page.py
