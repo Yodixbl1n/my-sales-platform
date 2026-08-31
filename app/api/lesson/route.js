@@ -54,7 +54,7 @@ export async function GET(req) {
   const moduleId = parseInt(searchParams.get('moduleId') || '0', 10);
   const lessonId = parseInt(searchParams.get('lessonId') || '0', 10);
 
-  if (!moduleId || !lessonId || moduleId < 1 || moduleId > 8 || lessonId < 0) {
+  if (!moduleId || Number.isNaN(moduleId) || Number.isNaN(lessonId) || moduleId < 1 || moduleId > 8 || lessonId < 0) {
     return NextResponse.json({ error: 'Invalid parameters' }, { status: 400 });
   }
 
@@ -87,6 +87,30 @@ export async function GET(req) {
   }
 
   // === Возвращаем контент ===
+  // Free-доступ = витрина, а не полный урок.
+  // Бесплатный пользователь получает короткий фрагмент + призыв написать в Telegram.
+  if (isFreeUser) {
+    const previewBody = (lesson.body || [])
+      .filter((line) => typeof line === 'string' && line.trim().length > 0)
+      .slice(0, 4);
+
+    const truncatedBody = [
+      ...previewBody,
+      '',
+      '🔒 Это ознакомительный фрагмент урока.',
+      'В полной версии курса внутри: пошаговые алгоритмы, примеры диалогов, разборы ошибок, практика и тесты.',
+      'Чтобы получить продолжение и открыть все 75 уроков, напиши мне в Telegram: @nikpavlovv'
+    ];
+
+    return NextResponse.json({
+      success: true,
+      lesson: {
+        title: lesson.title,
+        body: truncatedBody
+      }
+    });
+  }
+
   return NextResponse.json({
     success: true,
     lesson: {

@@ -57,10 +57,13 @@ export default function Dashboard() {
 
   const isFree = !!(user && user.free);
   const totalLessons = modules.reduce((s, m) => s + m.lessons.length, 0);
-  const visibleModules = isFree ? modules.filter((mm) => mm.id === 1) : modules;
+  const visibleModules = modules; // Все модули видны как витрина
   const progressPercent = totalLessons ? Math.round((completedLessons.length / totalLessons) * 100) : 0;
 
-  const unlocked = (id) => id === 1 || completed.includes(id - 1);
+  const unlocked = (id) => {
+    if (isFree && id !== 1) return false; // Бесплатным доступен только модуль 1
+    return id === 1 || completed.includes(id - 1);
+  };
   const lessonUnlocked = (m, l) => {
     if (!unlocked(m)) return false;
     if (isFree && (m !== 1 || l > 4)) return false;
@@ -226,15 +229,7 @@ export default function Dashboard() {
             );
           })}
 
-          {isFree && (
-            <div className="mt-3 p-4 rounded-xl border border-dashed" style={{ borderColor: 'rgba(217,242,79,0.4)', background: 'rgba(217,242,79,0.04)' }}>
-              <p className="text-sm font-black tracking-tight mb-1">🔒 ЕЩЁ 7 МОДУЛЕЙ</p>
-              <p className="text-xs text-white/50 mb-3">Полная версия: продвинутые техники, нейрохакинг, ментальное превосходство.</p>
-              <a href="https://t.me/nikpavlovv" target="_blank" className="block text-center px-3 py-2 rounded-full text-xs font-black text-black" style={{ background: LIME }}>
-                Купить полный курс
-              </a>
-            </div>
-          )}
+
         </div>
 
         <div className="p-3 border-t border-white/10">
