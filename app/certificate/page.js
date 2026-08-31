@@ -71,10 +71,17 @@ export default function CertificatePage() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((j) => setUser(j.user))
       .catch(() => (location.href = '/login'));
-    try {
-      const done = JSON.parse(localStorage.getItem('np_progress') || '[]');
-      setReady(done.length >= 8);
-    } catch (e) {}
+    // Проверяем доступ через серверный прогресс (вместо localStorage)
+    fetch('/api/progress')
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((j) => {
+        if (j.success && Array.isArray(j.modules)) {
+          setReady(j.modules.length >= 8);
+        } else {
+          setReady(false);
+        }
+      })
+      .catch(() => setReady(false));
   }, []);
 
   useEffect(() => {
@@ -155,7 +162,7 @@ export default function CertificatePage() {
           </motion.p>
 
           <motion.p variants={item} className="text-white/70 leading-relaxed max-w-xl mx-auto mb-10">
-            успешно завершил(а) обучение по программе «Эксперт по продажам», в полном объёме освоив 8 модулей и 81 урок курса, и подтвердил(а) свои знания, сдав все итоговые тесты.
+            успешно завершил(а) обучение по программе «Эксперт по продажам», в полном объёме освоив 8 модулей и 75 уроков курса, и подтвердил(а) свои знания, сдав все итоговые тесты.
           </motion.p>
 
           <motion.div variants={item} className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>

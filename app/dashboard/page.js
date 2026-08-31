@@ -43,10 +43,16 @@ export default function Dashboard() {
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((j) => setUser(j.user))
       .catch(() => (location.href = '/login'));
-    try {
-      setCompleted(JSON.parse(localStorage.getItem('np_progress') || '[]'));
-      setCompletedLessons(JSON.parse(localStorage.getItem('np_lessons') || '[]'));
-    } catch (e) {}
+    // Загружаем прогресс с сервера (вместо localStorage)
+    fetch('/api/progress')
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((j) => {
+        if (j.success) {
+          setCompleted(j.modules || []);
+          setCompletedLessons(j.lessons || []);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const isFree = !!(user && user.free);
@@ -75,7 +81,12 @@ export default function Dashboard() {
     if (!completedLessons.includes(key)) {
       const next = [...completedLessons, key];
       setCompletedLessons(next);
-      localStorage.setItem('np_lessons', JSON.stringify(next));
+      // Отправляем на сервер (вместо localStorage)
+      fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'lesson', module: m, lesson: l })
+      }).catch(() => {});
     }
     const module = modules.find((mod) => mod.id === m);
     const isLast = module ? l + 1 >= module.lessons.length : true;
@@ -100,7 +111,12 @@ export default function Dashboard() {
     if (!completed.includes(id)) {
       const next = [...completed, id];
       setCompleted(next);
-      localStorage.setItem('np_progress', JSON.stringify(next));
+      // Отправляем на сервер (вместо localStorage)
+      fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'module', module: id })
+      }).catch(() => {});
     }
   };
 

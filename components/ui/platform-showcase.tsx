@@ -31,7 +31,7 @@ function DashboardMock() {
           <div className="rounded-2xl p-3 md:p-4" style={{ background: 'radial-gradient(130% 130% at 85% 0%, #7c3aed 0%, #5b21b6 40%, #0f766e 80%)' }}>
             <p className="text-[9px] md:text-[10px] text-white/70 mb-1">ТВОЙ ПРОГРЕСС</p>
             <p className="text-xl md:text-2xl font-black tracking-tighter" style={{ color: LIME }}>34<span className="text-xs md:text-sm">%</span></p>
-            <p className="text-[8px] md:text-[9px] text-white/60 mt-1">24 из 71 уроков</p>
+            <p className="text-[8px] md:text-[9px] text-white/60 mt-1">24 из 75 уроков</p>
           </div>
           <div className="rounded-2xl p-3 md:p-4 border border-white/10 bg-[#141414]">
             <p className="text-[9px] md:text-[10px] text-white/60 mb-1">ВСЕГО УРОКОВ</p>
