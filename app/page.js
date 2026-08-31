@@ -99,7 +99,7 @@ export default function Landing() {
           ЧТО <span style={{ color: LIME }}>ВНУТРИ</span>
         </h2>
         <p className="text-white/50 text-center text-lg mb-3">Полная система: от первого контакта до закрытия сделки</p>
-        <p className="text-white/40 text-center text-sm tracking-widest mb-16">8 МОДУЛЕЙ • 81 УРОК • 100% ПРАКТИКА</p>
+        <p className="text-white/40 text-center text-sm tracking-widest mb-16">8 МОДУЛЕЙ • 75 УРОКОВ • 100% ПРАКТИКА</p>
         </Reveal>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">

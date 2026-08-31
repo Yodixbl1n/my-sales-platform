@@ -373,7 +373,7 @@ export default function Dashboard() {
           <div className="max-w-md w-full rounded-3xl border border-white/10 bg-[#141414] p-8 text-center">
             <p className="text-4xl mb-4">🔥</p>
             <h3 className="text-2xl font-black tracking-tighter mb-3">ВВОДНЫЙ БЛОК ПРОЙДЕН!</h3>
-            <p className="text-white/60 mb-6 leading-relaxed">Ты прошёл первые 5 уроков и увидел систему изнутри. Дальше — полная версия: 8 модулей, 71 урок, тесты и практика.</p>
+            <p className="text-white/60 mb-6 leading-relaxed">Ты прошёл первые 5 уроков и увидел систему изнутри. Дальше — полная версия: 8 модулей, 75 уроков, тесты и практика.</p>
             <a href="https://t.me/nikpavlovv" target="_blank" className="block px-8 py-4 rounded-full font-black text-black mb-3" style={{ background: LIME }}>Купить продолжение в Telegram</a>
             <button onClick={() => setUpsell(false)} className="mt-2 text-sm text-white/40 underline">Позже</button>
           </div>
