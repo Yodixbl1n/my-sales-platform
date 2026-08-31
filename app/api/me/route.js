@@ -25,6 +25,23 @@ export async function GET() {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
 
+  // === Демо-пользователь: возвращаем гостя без запроса в БД ===
+  if (payload.role === 'demo') {
+    return NextResponse.json({
+      user: {
+        id: payload.id,
+        role: 'demo',
+        blocked: false,
+        free: true,
+        demo: true,
+        first_name: 'Гость',
+        name: 'Гость',
+        username: 'demo',
+        modules_limit: 1,
+      }
+    });
+  }
+
   // === Запрашиваем актуальные данные из БД ===
   const SUPABASE = createSupabaseClient();
   const { data: user, error } = await SUPABASE

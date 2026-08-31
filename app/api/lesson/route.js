@@ -32,6 +32,17 @@ export async function GET(req) {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
 
+  // === Демо-пользователь: пропускаем БД, ограничиваем доступ ===
+  const isDemoUser = payload.role === 'demo';
+  if (isDemoUser) {
+    const { searchParams } = new URL(req.url);
+    const moduleId = parseInt(searchParams.get('moduleId') || '0', 10);
+    const lessonId = parseInt(searchParams.get('lessonId') || '0', 10);
+    if (moduleId !== 1 || lessonId >= 3) {
+      return NextResponse.json({ error: 'В демо-режиме доступны только первые 3 урока модуля 1' }, { status: 403 });
+    }
+  }
+
   // === Проверяем пользователя в БД ===
   const SUPABASE = createSupabaseClient();
   const { data: user, error: userErr } = await SUPABASE
@@ -59,7 +70,7 @@ export async function GET(req) {
   }
 
   // === Проверяем доступ по тарифу ===
-  const isFreeUser = user.free === true;
+  const isFreeUser = isDemoUser || (user && user.free === true);
   
   if (isFreeUser && moduleId !== 1) {
     return NextResponse.json({ error: 'Доступно только в платной версии' }, { status: 403 });

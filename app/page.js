@@ -173,8 +173,7 @@ export default function Landing() {
             Забрать систему ⚡
           </Link>
           <a
-            href="/dashboard" onClick={() => localStorage.setItem("np_plan", "free")}
-           
+            href="/demo"
             className="px-10 py-5 rounded-full font-bold text-lg border border-white/20 hover:border-white/50 transition-colors text-center"
           >
             Попробовать бесплатно
