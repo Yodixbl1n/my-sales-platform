@@ -39,7 +39,7 @@ export default function AdminPage() {
 
   const fetchInvites = async () => {
     try {
-      const res = await fetch('/api/admin/invites');
+      const res = await fetch('/api/admin/invite');
       const data = await res.json();
       if (data.invites) setInviteList(data.invites);
     } catch (e) {}
