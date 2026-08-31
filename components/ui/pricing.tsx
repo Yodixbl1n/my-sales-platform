@@ -209,7 +209,7 @@ function Pricing() {
               <p className="mt-3 text-sm leading-relaxed text-white/50">{plan.description}</p>
 
               {/* Цена */}
-              <div className="mt-8 flex items-end gap-2">
+              <div className="mt-8 flex items-end gap-2" aria-label={`Цена: ${plan.full === 0 ? 'Бесплатно' : price + ' рублей'}`}>
                 {plan.full === 0 ? (
                   <span className="text-6xl font-black tracking-tighter" style={{ color: "#ffffff" }}>
                     Бесплатно

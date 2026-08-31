@@ -6,7 +6,7 @@ import { Reveal } from '@/components/ui/reveal';
 import { StaggeredReveal } from '@/components/ui/staggered-reveal';
 import { Pricing } from '@/components/ui/pricing';
 import { Faq } from '@/components/ui/faq';
-import { SocialProof, AboutAuthor } from '@/components/ui/social-proof';
+
 import { Marquee } from '@/components/ui/marquee';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import Link from 'next/link';
