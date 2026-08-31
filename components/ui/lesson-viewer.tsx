@@ -1,6 +1,6 @@
 'use client';
 import React from "react";
-import { X, ArrowLeft, ArrowRight, CheckCircle } from "lucide-react";
+import { X } from "lucide-react";
 import { CONTENT_1_4 } from "@/lib/content-part1";
 import { CONTENT_PRACTICE as PRACTICE } from "@/lib/content-practice";
 import { CONTENT_5_8 } from "@/lib/content-part2";
@@ -11,18 +11,10 @@ const COURSE: Record<number, { title: string; body: string[] }[]> = { ...CONTENT
 export function LessonViewer({
   lesson,
   onClose,
-  onComplete,
-  onBack,
-  isComplete,
-  isFirst,
   inline = false,
 }: {
   lesson: { m: number; l: number } | null;
   onClose: () => void;
-  onComplete: () => void;
-  onBack: () => void;
-  isComplete: boolean;
-  isFirst: boolean;
   inline?: boolean;
 }) {
   if (!lesson) return null;
@@ -62,32 +54,7 @@ export function LessonViewer({
         </div>
 
         
-        {/* Нижние кнопки */}
-        <div className="mt-4 sm:mt-6 flex gap-2 sm:gap-3 flex-shrink-0 border-t border-white/10 pt-3 sm:pt-5">
-          <button
-            onClick={onBack}
-            disabled={isFirst}
-            className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold border border-white/20 text-white/80 hover:border-white/40 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Назад
-          </button>
-          <button
-            onClick={onComplete}
-            disabled={isComplete}
-            className="ml-auto flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-black text-black transition-transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
-            style={{ background: LIME }}
-          >
-            {isComplete ? (
-              <>
-                <CheckCircle className="w-4 h-4" /> Урок пройден
-              </>
-            ) : (
-              <>
-                Урок пройден <ArrowRight className="w-4 h-4" />
-              </>
-            )}
-          </button>
-        </div>
+
       </div>
     </div>
   );

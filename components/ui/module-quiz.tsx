@@ -182,11 +182,7 @@ export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: nu
             >
               <RotateCcw className="w-3.5 h-3.5" /> Пройти заново
             </button>
-            {onClose && (
-              <button onClick={onClose} className="rounded-full p-1.5 hover:bg-white/10 text-white/60 hover:text-white transition-colors">
-                <X className="w-4 h-4" />
-              </button>
-            )}
+            
           </div>
         </div>
       </div>
@@ -205,19 +201,12 @@ export function ModuleQuiz({ moduleId, passed, onPass, onClose }: { moduleId: nu
 
   return (
     <div className="p-3 sm:p-5 rounded-2xl border border-white/10 bg-black/30">
-      {/* Шапка теста с кнопкой закрытия */}
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div>
-          <p className="font-bold">📝 Тест по модулю {moduleId}</p>
-          <p className="text-xs text-white/40 mt-1">
-            Вопросов: {questions.length}. Для зачёта нужно минимум {PASS} правильных.
-          </p>
-        </div>
-        {onClose && (
-          <button onClick={onClose} className="rounded-full p-1.5 hover:bg-white/10 text-white/60 hover:text-white transition-colors flex-shrink-0">
-            <X className="w-4 h-4" />
-          </button>
-        )}
+      {/* Шапка теста */}
+      <div className="mb-4">
+        <p className="font-bold">📝 Тест по модулю {moduleId}</p>
+        <p className="text-xs text-white/40 mt-1">
+          Вопросов: {questions.length}. Для зачёта нужно минимум {PASS} правильных.
+        </p>
       </div>
 
       {questions.map((q, qi) => {
