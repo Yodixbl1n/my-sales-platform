@@ -127,6 +127,8 @@ export async function POST(req) {
     }
   });
   res.headers.set('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=604800; SameSite=Lax; Secure`);
+  // Удаляем demo_token при успешной регистрации, чтобы полный доступ имел приоритет
+  res.headers.append('Set-Cookie', 'demo_token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax; Secure');
   
   return res;
 }

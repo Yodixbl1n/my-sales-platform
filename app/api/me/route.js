@@ -12,7 +12,12 @@ import { createSupabaseClient } from '../../../lib/supabaseClient';
  */
 export async function GET() {
   const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
+  let token = cookieStore.get('token')?.value;
+  
+  // Если нет основного токена, проверяем демо-токен
+  if (!token) {
+    token = cookieStore.get('demo_token')?.value;
+  }
 
   if (!token) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

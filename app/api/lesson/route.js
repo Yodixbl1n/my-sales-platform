@@ -19,7 +19,12 @@ import { CONTENT_PRACTICE } from '../../../lib/content-practice';
  */
 export async function GET(req) {
   const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
+  let token = cookieStore.get('token')?.value;
+  
+  // Если нет основного токена, проверяем демо-токен
+  if (!token) {
+    token = cookieStore.get('demo_token')?.value;
+  }
 
   if (!token) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

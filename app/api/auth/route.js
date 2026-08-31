@@ -42,5 +42,7 @@ export async function GET(req) {
   if (isSecure) cookieOptions.push('Secure');
   
   res.headers.set('Set-Cookie', `token=${token}; ${cookieOptions.join('; ')}`);
+  // Удаляем demo_token при Telegram-логине, чтобы полный доступ имел приоритет
+  res.headers.append('Set-Cookie', 'demo_token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax; Secure');
   return res;
 }

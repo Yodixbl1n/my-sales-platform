@@ -22,7 +22,7 @@ export async function GET() {
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
   const cookieStore = await cookies();
-  cookieStore.set('token', token, {
+  cookieStore.set('demo_token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
