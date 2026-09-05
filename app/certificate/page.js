@@ -3,7 +3,6 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
-// Balloons грузим только на клиенте — библиотека работает только в браузере
 const Balloons = dynamic(
   () => import('@/components/ui/balloons').then((m) => m.Balloons),
   { ssr: false }
@@ -50,7 +49,10 @@ function Confetti() {
         particles.forEach((p) => (p.opacity = fade));
       }
       particles.forEach((p) => {
-        p.x += p.vx; p.y += p.vy; p.vy += 0.06; p.rot += p.rotSpeed;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.06;
+        p.rot += p.rotSpeed;
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate((p.rot * Math.PI) / 180);
@@ -63,9 +65,15 @@ function Confetti() {
     };
     animate();
 
-    const onResize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    const onResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
     window.addEventListener('resize', onResize);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); };
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
 
   return <canvas ref={canvasRef} className="no-print fixed inset-0 pointer-events-none z-50" />;
@@ -86,7 +94,6 @@ export default function CertificatePage() {
       .then((j) => setUser(j.user))
       .catch(() => (location.href = '/login'));
 
-    // Проверяем доступ через серверный прогресс (вместо localStorage)
     fetch('/api/progress')
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((j) => {
@@ -102,15 +109,16 @@ export default function CertificatePage() {
   useEffect(() => {
     if (user && !ready) location.href = '/dashboard';
     if (ready) {
-      // Конфетти сразу
       const t1 = setTimeout(() => setShowConfetti(true), 600);
-      // Шарики через 1.2 сек — после того как сертификат появился
       const t2 = setTimeout(() => {
         if (balloonsRef.current?.launchAnimation) {
           balloonsRef.current.launchAnimation();
         }
       }, 1200);
-      return () => { clearTimeout(t1); clearTimeout(t2); };
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
     }
   }, [user, ready]);
 
@@ -135,7 +143,6 @@ export default function CertificatePage() {
 
       {showConfetti && <Confetti />}
 
-      {/* Шарики — запускаются через balloonsRef.launchAnimation() */}
       <Balloons ref={balloonsRef} type="default" className="no-print" />
 
       <div className="no-print absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl pointer-events-none" style={{ background: 'radial-gradient(circle, #d9f24f 0%, transparent 70%)' }} />

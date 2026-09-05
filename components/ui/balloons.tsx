@@ -3,10 +3,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-// balloons-js работает только в браузере — импортируем динамически
 let balloonsLib: { balloons?: () => void; textBalloons?: (opts: any[]) => void } = {};
 if (typeof window !== "undefined") {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   balloonsLib = require("balloons-js");
 }
 
