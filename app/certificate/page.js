@@ -1,17 +1,26 @@
 'use client';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
+
+// Balloons грузим только на клиенте — библиотека работает только в браузере
+const Balloons = dynamic(
+  () => import('@/components/ui/balloons').then((m) => m.Balloons),
+  { ssr: false }
+);
 
 const LIME = '#d9f24f';
 
 function Confetti() {
   const canvasRef = useRef(null);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
     const colors = ['#d9f24f', '#ffffff', '#a855f7', '#ec4899', '#fbbf24', '#7dd3fc'];
     const particles = [];
     for (let i = 0; i < 160; i++) {
@@ -28,9 +37,11 @@ function Confetti() {
         opacity: 1,
       });
     }
+
     let frame = 0;
     const maxFrames = 260;
     let raf;
+
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       frame++;
@@ -51,10 +62,12 @@ function Confetti() {
       if (frame < maxFrames) raf = requestAnimationFrame(animate);
     };
     animate();
+
     const onResize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     window.addEventListener('resize', onResize);
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); };
   }, []);
+
   return <canvas ref={canvasRef} className="no-print fixed inset-0 pointer-events-none z-50" />;
 }
 
@@ -65,12 +78,14 @@ export default function CertificatePage() {
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const balloonsRef = useRef(null);
 
   useEffect(() => {
     fetch('/api/me')
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((j) => setUser(j.user))
       .catch(() => (location.href = '/login'));
+
     // Проверяем доступ через серверный прогресс (вместо localStorage)
     fetch('/api/progress')
       .then((r) => (r.ok ? r.json() : Promise.reject()))
@@ -87,12 +102,20 @@ export default function CertificatePage() {
   useEffect(() => {
     if (user && !ready) location.href = '/dashboard';
     if (ready) {
-      const t = setTimeout(() => setShowConfetti(true), 600);
-      return () => clearTimeout(t);
+      // Конфетти сразу
+      const t1 = setTimeout(() => setShowConfetti(true), 600);
+      // Шарики через 1.2 сек — после того как сертификат появился
+      const t2 = setTimeout(() => {
+        if (balloonsRef.current?.launchAnimation) {
+          balloonsRef.current.launchAnimation();
+        }
+      }, 1200);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
     }
   }, [user, ready]);
 
   const displayName = user ? user.first_name || user.name || user.username || 'Студент' : 'Студент';
+
   const certId = useMemo(() => {
     if (!user) return '';
     const n = (user.first_name || user.name || user.username || 'X').toUpperCase();
@@ -112,6 +135,9 @@ export default function CertificatePage() {
 
       {showConfetti && <Confetti />}
 
+      {/* Шарики — запускаются через balloonsRef.launchAnimation() */}
+      <Balloons ref={balloonsRef} type="default" className="no-print" />
+
       <div className="no-print absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl pointer-events-none" style={{ background: 'radial-gradient(circle, #d9f24f 0%, transparent 70%)' }} />
       <div className="no-print absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full opacity-15 blur-3xl pointer-events-none" style={{ background: 'radial-gradient(circle, #a855f7 0%, transparent 70%)' }} />
 
@@ -128,6 +154,7 @@ export default function CertificatePage() {
       >
         <div className="absolute inset-3 rounded-xl pointer-events-none" style={{ border: '1px solid rgba(217,242,79,0.4)' }} />
         <div className="absolute inset-4 rounded-lg pointer-events-none" style={{ border: '1px solid rgba(255,255,255,0.08)' }} />
+
         <div className="absolute top-7 left-7 w-9 h-9 border-t-2 border-l-2 pointer-events-none" style={{ borderColor: LIME }} />
         <div className="absolute top-7 right-7 w-9 h-9 border-t-2 border-r-2 pointer-events-none" style={{ borderColor: LIME }} />
         <div className="absolute bottom-7 left-7 w-9 h-9 border-b-2 border-l-2 pointer-events-none" style={{ borderColor: LIME }} />
@@ -143,7 +170,6 @@ export default function CertificatePage() {
           </motion.div>
 
           <motion.p variants={item} className="text-[11px] tracking-[0.4em] text-white/40 mb-6 uppercase">Система обучения продажам</motion.p>
-
           <motion.h1 variants={item} className="text-5xl md:text-6xl font-black tracking-tighter text-white mb-2" style={{ textShadow: '0 0 40px rgba(217,242,79,0.35)' }}>
             СЕРТИФИКАТ
           </motion.h1>
@@ -156,11 +182,9 @@ export default function CertificatePage() {
           </motion.div>
 
           <motion.p variants={item} className="text-white/50 mb-4">Настоящим подтверждается, что</motion.p>
-
           <motion.p variants={item} className="text-4xl md:text-6xl font-black tracking-tight mb-8" style={{ background: 'linear-gradient(135deg, #d9f24f 0%, #eaff8a 50%, #d9f24f 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
             {displayName}
           </motion.p>
-
           <motion.p variants={item} className="text-white/70 leading-relaxed max-w-xl mx-auto mb-10">
             успешно завершил(а) обучение по программе «Эксперт по продажам», в полном объёме освоив 8 модулей и 75 уроков курса, и подтвердил(а) свои знания, сдав все итоговые тесты.
           </motion.p>
