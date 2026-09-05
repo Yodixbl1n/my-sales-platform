@@ -30,7 +30,7 @@ export async function GET(req) {
     username: params.username || null
   });
 
-  const res = NextResponse.redirect(new URL('/', req.url));
+  const res = NextResponse.redirect(new URL('/dashboard', req.url));
   
   const isSecure = process.env.NEXT_PUBLIC_COOKIE_SECURE === 'true';
   const cookieOptions = [

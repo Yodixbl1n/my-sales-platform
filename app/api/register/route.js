@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createSupabaseClient } from '../../../lib/supabaseClient';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { randomUUID } from 'crypto';
 
 /**
  * Регистрация с реальной проверкой инвайт-кода.
@@ -68,7 +69,7 @@ export async function POST(req) {
   const salt = await bcrypt.genSalt(10);
   const passwordHash = await bcrypt.hash(password, salt);
 
-  const userId = Date.now().toString() + '-' + Math.random().toString(36).slice(2, 10);
+  const userId = randomUUID();
 
   const { data: newUser, error: createErr } = await SUPABASE
     .from('users')
