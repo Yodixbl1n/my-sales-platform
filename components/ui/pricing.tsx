@@ -132,8 +132,9 @@ function Pricing() {
 
   return (
     <section id="pricing" className="mx-auto max-w-6xl px-6 pb-24 scroll-mt-6">
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap'); .bento-serif { font-family: 'Instrument Serif', Georgia, serif; }`}</style>
       <h2 className="mb-4 text-center text-5xl font-black tracking-tighter md:text-6xl">
-        ВЫБЕРИ <span style={{ color: LIME }}>СВОЙ ПУТЬ</span>
+        ВЫБЕРИ <span className="bento-serif italic" style={{ color: LIME }}>свой путь</span>
       </h2>
       <p className="mb-10 text-center text-lg text-white/50">
         Две программы — одна цель. Ты сам решаешь, как быстро идти.

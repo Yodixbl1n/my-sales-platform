@@ -17,8 +17,9 @@ export function Faq() {
 
   return (
     <section className="max-w-3xl mx-auto px-6 pb-24">
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap'); .bento-serif { font-family: 'Instrument Serif', Georgia, serif; }`}</style>
       <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-center mb-12">
-        ЧАСТЫЕ <span style={{ color: LIME }}>ВОПРОСЫ</span>
+        ЧАСТЫЕ <span className="bento-serif italic" style={{ color: LIME }}>вопросы</span>
       </h2>
       <div className="space-y-3">
         {FAQS.map((f, i) => (

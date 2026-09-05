@@ -27,6 +27,7 @@ export interface ArrowFillButtonOwnProps {
   arrowColor?: string;
   hoverArrowColor?: string;
   variant?: "lime" | "outline";
+  size?: "sm" | "md";
   target?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
@@ -41,6 +42,7 @@ function ArrowFillButton({
   href = DEFAULT_HREF,
   className = "",
   variant = "lime",
+  size = "md",
   target,
   onClick,
   bgColor,
@@ -54,15 +56,23 @@ function ArrowFillButton({
   ...props
 }: ArrowFillButtonProps) {
   const isLime = variant === "lime";
+  const isSm = size === "sm";
 
-  const bg        = bgColor        ?? (isLime ? LIME        : "transparent");
-  const text      = textColor      ?? (isLime ? "#000000"   : "#ffffff");
-  const fillBg    = fillBgColor    ?? (isLime ? "#000000"   : LIME);
-  const fillText  = fillTextColor  ?? (isLime ? LIME        : "#000000");
-  const hFillBg   = hoverFillBgColor   ?? fillBg;
+  const sizeClasses = isSm
+    ? "h-[44px] rounded-full px-5 pr-[calc(44px+6px+22px)] text-[13px] [--icon-circle:36px] [--icon-right:5px] [--circle-inset-y:calc((100%-36px)/2)] max-sm:h-[42px] max-sm:px-5 max-sm:pr-[calc(36px+5px+20px)] max-sm:text-[12px] max-sm:[--icon-circle:34px] max-sm:[--icon-right:5px]"
+    : "h-[52px] rounded-full px-7 pr-[calc(52px+8px+28px)] text-[15px] [--icon-circle:44px] [--icon-right:6px] [--circle-inset-y:calc((100%-44px)/2)] max-sm:h-[48px] max-sm:px-6 max-sm:pr-[calc(44px+6px+24px)] max-sm:text-[14px] max-sm:[--icon-circle:40px] max-sm:[--icon-right:5px]";
+
+  const textInset = isSm ? 22 : 28;
+  const textInsetSm = isSm ? 20 : 24;
+
+  const bg = bgColor ?? (isLime ? LIME : "transparent");
+  const text = textColor ?? (isLime ? "#000000" : "#ffffff");
+  const fillBg = fillBgColor ?? (isLime ? "#000000" : LIME);
+  const fillText = fillTextColor ?? (isLime ? LIME : "#000000");
+  const hFillBg = hoverFillBgColor ?? fillBg;
   const hFillText = hoverFillTextColor ?? fillText;
-  const arrow     = arrowColor     ?? fillText;
-  const hArrow    = hoverArrowColor ?? hFillText;
+  const arrow = arrowColor ?? fillText;
+  const hArrow = hoverArrowColor ?? hFillText;
 
   const [isReady, setIsReady] = useState(false);
   const [isCompact, setIsCompact] = useState(false);
@@ -87,7 +97,9 @@ function ArrowFillButton({
   }, []);
 
   useEffect(() => {
-    return () => { if (releaseRef.current) window.clearTimeout(releaseRef.current); };
+    return () => {
+      if (releaseRef.current) window.clearTimeout(releaseRef.current);
+    };
   }, []);
 
   const clearPressed = () => {
@@ -101,7 +113,10 @@ function ArrowFillButton({
   const onDown = (e: PointerEvent<HTMLAnchorElement>) => {
     props.onPointerDown?.(e);
     if (!isCompact || e.pointerType === "mouse") return;
-    if (releaseRef.current) { window.clearTimeout(releaseRef.current); releaseRef.current = null; }
+    if (releaseRef.current) {
+      window.clearTimeout(releaseRef.current);
+      releaseRef.current = null;
+    }
     setIsPressed(true);
   };
 
@@ -117,9 +132,8 @@ function ArrowFillButton({
     clearPressed();
   };
 
-  const borderStyle = variant === "outline"
-    ? `1px solid rgba(255,255,255,0.2)`
-    : `1px solid ${LIME}`;
+  const borderStyle =
+    variant === "outline" ? `1px solid rgba(255,255,255,0.2)` : `1px solid ${LIME}`;
 
   return (
     <a
@@ -131,11 +145,7 @@ function ArrowFillButton({
       onPointerDown={onDown}
       onPointerUp={onUp}
       onPointerCancel={onCancel}
-      className={`group relative inline-flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap font-bold leading-none
-        h-[52px] rounded-full px-7 pr-[calc(52px+8px+28px)] text-[15px]
-        [--icon-circle:44px] [--icon-right:6px] [--circle-inset-y:calc((100%-44px)/2)]
-        max-sm:h-[48px] max-sm:px-6 max-sm:pr-[calc(44px+6px+24px)] max-sm:text-[14px]
-        max-sm:[--icon-circle:40px] max-sm:[--icon-right:5px] ${className}`}
+      className={`group relative inline-flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap font-bold leading-none ${sizeClasses} ${className}`}
       style={{
         background: bg,
         border: borderStyle,
@@ -164,8 +174,8 @@ function ArrowFillButton({
 
       <div
         aria-hidden
-        className={`pointer-events-none absolute inset-0 z-[2] flex items-center px-7 pr-[calc(var(--icon-circle)+var(--icon-right)+28px)] text-(--btn-fill-text)
-          max-sm:px-6 max-sm:pr-[calc(var(--icon-circle)+var(--icon-right)+24px)]
+        className={`pointer-events-none absolute inset-0 z-[2] flex items-center ${isSm ? "px-5" : "px-7"} pr-[calc(var(--icon-circle)+var(--icon-right)+${textInset}px)] text-(--btn-fill-text)
+          ${isSm ? "max-sm:px-5" : "max-sm:px-6"} max-sm:pr-[calc(var(--icon-circle)+var(--icon-right)+${textInsetSm}px)]
           [clip-path:inset(var(--circle-inset-y)_var(--icon-right)_var(--circle-inset-y)_calc(100%-var(--icon-right)-var(--icon-circle)))]
           ${isReady
             ? "transition-all duration-[450ms] ease-[cubic-bezier(0.785,0.135,0.15,0.86)] motion-reduce:transition-none group-hover:text-(--btn-fill-text-hover) group-hover:[clip-path:inset(0_0_0_0)] group-data-[pressed=true]:text-(--btn-fill-text-hover) group-data-[pressed=true]:[clip-path:inset(0_0_0_0)]"
@@ -183,7 +193,10 @@ function ArrowFillButton({
           ${isReady
             ? "transition-colors duration-[450ms] ease-[cubic-bezier(0.785,0.135,0.15,0.86)] motion-reduce:transition-none group-hover:bg-(--btn-fill-bg-hover) group-hover:text-(--btn-arrow-hover) group-data-[pressed=true]:bg-(--btn-fill-bg-hover) group-data-[pressed=true]:text-(--btn-arrow-hover)"
             : ""}`}
-        style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)", maskImage: "radial-gradient(white, black)" }}
+        style={{
+          WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+          maskImage: "radial-gradient(white, black)",
+        }}
       >
         <ArrowRight
           className={`absolute left-1/2 top-1/2 size-4 max-sm:size-[14px] translate-x-[-170%] -translate-y-1/2 origin-center scale-0 text-current

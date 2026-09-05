@@ -17,6 +17,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap'); .bento-serif { font-family: 'Instrument Serif', Georgia, serif; }`}</style>
       <style>{`@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } } .marquee-track { animation: marquee 25s linear infinite; } @keyframes glowPulse { 0%,100% { text-shadow: 0 0 20px rgba(217,242,79,0.4); } 50% { text-shadow: 0 0 50px rgba(217,242,79,0.9); } } .neon { animation: glowPulse 2.5s ease-in-out infinite; } @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } } .fade-up { animation: fadeUp 0.9s ease-out both; } .fade-up-1 { animation: fadeUp 0.9s ease-out 0.15s both; } .fade-up-2 { animation: fadeUp 0.9s ease-out 0.3s both; } .fade-up-3 { animation: fadeUp 0.9s ease-out 0.45s both; }`}</style>
       
       {/* Header */}
@@ -28,6 +29,7 @@ export default function Landing() {
         <ArrowFillButton
           href="#pricing"
           btnText="Узнать цены"
+          size="sm"
           variant="lime"
         />
       </header>
@@ -74,7 +76,7 @@ export default function Landing() {
         <MagicText text="Продажи — это не талант и не везение. Это навык, который собирается системой: контакт, потребность, ценность, цена. Когда ты ведёшь диалог по системе, клиент перестаёт сопротивляться и сам видит выгоду. Ты больше не уговариваешь — ты предлагаешь решение и спокойно называешь свою цену." />
       </section>
 
-      {/* What inside */}
+      {/* Bento grid — что внутри */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
         <Reveal>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
@@ -83,26 +85,108 @@ export default function Landing() {
           <p className="text-white/50 text-center text-base sm:text-lg mb-3">Полная система: от первого контакта до закрытия сделки</p>
           <p className="text-white/40 text-center text-xs sm:text-sm tracking-widest mb-10 sm:mb-16">8 МОДУЛЕЙ • 75 УРОКОВ • 100% ПРАКТИКА</p>
         </Reveal>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-          {[
-            { num: '01', title: 'Базовые понятия', desc: '5 этапов продажи, установление контакта, выявление потребностей, презентация СВЭ' },
-            { num: '02', title: 'Метод СПИН и MEDDIC', desc: 'Программирование диалога, квалификация клиента, карта ЛПР' },
-            { num: '03', title: 'Архитектура ценности', desc: 'Инжиниринг пре-убеждения, математика ценности, безотказные офферы' },
-            { num: '04', title: 'Работа с возражениями', desc: '«Дорого», «Я подумаю», «Нет денег» — формулы амортизации' },
-            { num: '05', title: 'Максимизация прибыли', desc: 'Upsell, LTV, Lock-in Strategy, эффект приманки, торги' },
-            { num: '06', title: 'Продвинутые техники', desc: 'Белфорт, тактическая эмпатия Криса Восса, Сэндлер, управление фреймами' },
-            { num: '07', title: 'Нейрохакинг продаж', desc: 'Дофаминовые петли, захват амигдалы, эффект собственности, окситоциновый взлом' },
-            { num: '08', title: 'Ментальное превосходство', desc: 'Адаптация языка, сторителлинг с действием, пресуппозиции, стратегическое влияние' },
-          ].map((item) => (
-            <div
-              key={item.num}
-              className="group p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] hover:bg-[#1a1a1a] hover:border-[#d9f24f] transition-all duration-300 hover:-translate-y-1 flex flex-col"
-            >
-              <p className="text-3xl sm:text-5xl font-black mb-3 sm:mb-5 opacity-30 group-hover:opacity-100 transition-opacity" style={{ color: LIME }}>{item.num}</p>
-              <h3 className="text-sm sm:text-xl font-bold mb-1 sm:mb-3 leading-tight">{item.title}</h3>
-              <p className="text-white/50 leading-relaxed text-xs sm:text-sm hidden sm:block">{item.desc}</p>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 auto-rows-[minmax(150px,auto)]">
+          {/* Большая карточка — идея курса */}
+          <div className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-10 flex flex-col justify-between group hover:border-[#d9f24f]/60 transition-colors duration-300">
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20 blur-3xl group-hover:opacity-40 transition-opacity pointer-events-none" style={{ background: 'radial-gradient(circle, #d9f24f 0%, transparent 70%)' }} />
+            <div>
+              <p className="text-xs tracking-widest text-white/40 mb-4">СИСТЕМА, А НЕ ТАЛАНТ</p>
+              <h3 className="bento-serif text-3xl sm:text-5xl leading-[1.05] text-white">
+                Продажи — это <em style={{ color: LIME }}>инженерия</em>, а не везение
+              </h3>
+              <p className="text-white/60 text-sm sm:text-base mt-4 max-w-md leading-relaxed">Контакт → потребность → ценность → цена. Каждый этап разобран по шагам, со скриптами и примерами из реальных сделок.</p>
             </div>
-          ))}
+            <div className="flex items-end justify-between mt-6">
+              <span className="text-6xl sm:text-7xl">🎯</span>
+              <span className="bento-serif italic text-white/40 text-sm sm:text-base">от первого «алло» до оплаты</span>
+            </div>
+          </div>
+
+          {/* Нейрохакинг */}
+          <div className="col-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1a1030] to-[#141414] p-6 sm:p-8 group hover:border-[#a855f7]/60 transition-colors duration-300">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs tracking-widest text-white/40 mb-2">МОДУЛЬ 07</p>
+                <h3 className="bento-serif text-2xl sm:text-3xl text-white">Нейрохакинг <em className="text-[#c084fc]">продаж</em></h3>
+              </div>
+              <span className="text-5xl sm:text-6xl">🧠</span>
+            </div>
+            <p className="text-white/60 text-sm mt-3 leading-relaxed">Дофаминовые петли, захват амигдалы и эффект собственности — как на самом деле принимает решения мозг клиента.</p>
+          </div>
+
+          {/* СПИН */}
+          <div className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
+            <span className="text-4xl">❓</span>
+            <div>
+              <h3 className="font-bold text-white text-sm sm:text-base">СПИН</h3>
+              <p className="text-white/50 text-xs mt-1">Вопросы, которые продают за тебя</p>
+            </div>
+          </div>
+
+          {/* MEDDIC */}
+          <div className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
+            <span className="text-4xl">🗺️</span>
+            <div>
+              <h3 className="font-bold text-white text-sm sm:text-base">MEDDIC</h3>
+              <p className="text-white/50 text-xs mt-1">Квалификация сделки как в enterprise</p>
+            </div>
+          </div>
+
+          {/* Цифры — акцентная лаймовая */}
+          <div className="col-span-2 rounded-3xl border border-[#d9f24f] bg-[#d9f24f] p-6 sm:p-8 text-black flex items-center justify-between gap-4">
+            <div className="text-center">
+              <p className="text-3xl sm:text-5xl font-black">8</p>
+              <p className="text-[10px] sm:text-xs font-bold tracking-widest mt-1">МОДУЛЕЙ</p>
+            </div>
+            <div className="w-px h-12 bg-black/20" />
+            <div className="text-center">
+              <p className="text-3xl sm:text-5xl font-black">75</p>
+              <p className="text-[10px] sm:text-xs font-bold tracking-widest mt-1">УРОКОВ</p>
+            </div>
+            <div className="w-px h-12 bg-black/20" />
+            <div className="text-center">
+              <p className="text-3xl sm:text-5xl font-black">100%</p>
+              <p className="text-[10px] sm:text-xs font-bold tracking-widest mt-1">ПРАКТИКА</p>
+            </div>
+          </div>
+
+          {/* Возражения */}
+          <div className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
+            <span className="text-4xl">🛡️</span>
+            <div>
+              <h3 className="font-bold text-white text-sm sm:text-base">Возражения</h3>
+              <p className="text-white/50 text-xs mt-1">«Дорого» и «я подумаю» — формулы</p>
+            </div>
+          </div>
+
+          {/* Белфорт */}
+          <div className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
+            <span className="text-4xl">🐺</span>
+            <div>
+              <h3 className="font-bold text-white text-sm sm:text-base">Белфорт</h3>
+              <p className="text-white/50 text-xs mt-1">Прямые продажи и тон-контроль</p>
+            </div>
+          </div>
+
+          {/* Цитата */}
+          <div className="col-span-2 rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-8 flex flex-col justify-between group hover:border-[#d9f24f]/60 transition-colors duration-300">
+            <span className="bento-serif italic text-4xl leading-none" style={{ color: LIME }}>“</span>
+            <p className="bento-serif text-lg sm:text-2xl text-white/90 leading-snug">Ты больше не уговариваешь — ты предлагаешь решение и спокойно называешь свою цену.</p>
+            <p className="text-xs text-white/40 mt-4 tracking-widest">ФИЛОСОФИЯ КУРСА</p>
+          </div>
+
+          {/* Архитектура ценности */}
+          <div className="col-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0f2027] to-[#141414] p-6 sm:p-8 group hover:border-[#22d3ee]/60 transition-colors duration-300">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs tracking-widest text-white/40 mb-2">МОДУЛЬ 03</p>
+                <h3 className="bento-serif text-2xl sm:text-3xl text-white">Архитектура <em className="text-[#22d3ee]">ценности</em></h3>
+              </div>
+              <span className="text-5xl sm:text-6xl">💎</span>
+            </div>
+            <p className="text-white/60 text-sm mt-3 leading-relaxed">Математика ценности и безотказные офферы — клиент сам видит выгоду до того, как услышит цену.</p>
+          </div>
         </div>
       </section>
 
@@ -116,9 +200,9 @@ export default function Landing() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-14 sm:pb-24">
         <Reveal>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter text-center mb-4">
-            ТВОЯ ТОЧКА <span className="neon" style={{ color: LIME }}>Б</span>
+            ТВОЯ ТОЧКА <span className="bento-serif italic neon" style={{ color: LIME }}>Б</span>
           </h2>
-          <p className="text-white/50 text-center text-base sm:text-lg mb-10 sm:mb-14">Не мечта, а набор навыков, которые можно потрогать</p>
+          <p className="text-white/50 text-center text-base sm:text-lg mb-10 sm:mb-14">Не мечта, а набор <span style={{ color: LIME }}>навыков</span>, которые можно потрогать</p>
         </Reveal>
         <div className="grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-2 mb-6 sm:mb-10">
           {[
