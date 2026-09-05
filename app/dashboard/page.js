@@ -245,10 +245,6 @@ export default function Dashboard() {
         <div className="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-b border-white/10 sticky top-0 bg-[#0a0a0a]/90 backdrop-blur z-20">
           <div className="flex items-center gap-3">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden w-9 h-9 rounded-lg border border-white/15 flex items-center justify-center">☰</button>
-            <div>
-              <p className="text-sm sm:text-base font-bold leading-tight">Привет, {displayName}! 👋</p>
-              <p className="text-xs text-white/40">Готов прокачать продажи сегодня?</p>
-            </div>
           </div>
           <div className="relative">
             <button
@@ -277,25 +273,54 @@ export default function Dashboard() {
         )}
 
         <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
+          {/* ===== ПРИВЕТСТВЕННЫЙ БЛОК (по левому краю) ===== */}
+          <div className="mb-6 sm:mb-8 text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold border border-emerald-400/60 bg-emerald-400/10 text-emerald-300 mb-4">
+              ★ Рады видеть вас в команде
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight mb-3">
+              Привет, <span style={{ color: LIME }}>{displayName}</span>! 👋
+            </h1>
+            <p className="text-sm sm:text-base text-white/60 max-w-2xl leading-relaxed">
+              Добро пожаловать в закрытое образовательное пространство NP Sales. Здесь собраны все необходимые материалы, лекции и инструменты для вашего профессионального роста.
+            </p>
+          </div>
+
           {/* ===== ТРИ КАРТОЧКИ СТАТИСТИКИ (вернул) ===== */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
             <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6" style={{ background: 'radial-gradient(130% 130% at 85% 0%, #7c3aed 0%, #5b21b6 40%, #0f766e 80%)' }}>
-              <p className="text-[10px] sm:text-xs text-white/70 mb-1">ТВОЙ ПРОГРЕСС</p>
+              <p className="text-[10px] sm:text-xs text-white/70 mb-1 flex items-center gap-1.5">
+                <span className="text-base">💡</span> ПРОГРЕСС ОБУЧЕНИЯ
+              </p>
               <p className="text-3xl sm:text-5xl font-black tracking-tighter" style={{ color: LIME }}>
                 {progressPercent}<span className="text-xl sm:text-2xl">%</span>
               </p>
-              <p className="text-[10px] sm:text-xs text-white/60 mt-2">{completedLessons.length} из {totalLessons} уроков</p>
-              <p className="text-[10px] sm:text-xs text-white/60">{completed.length} из {modules.length} модулей</p>
+              <p className="text-[10px] sm:text-xs text-white/60 mt-2">Выполнено {completedLessons.length} из {totalLessons} уроков</p>
+              <p className="text-[10px] sm:text-xs text-white/60">{progressPercent}% пройдено</p>
             </div>
             <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-4 sm:p-6 flex flex-col justify-between">
-              <p className="text-[10px] sm:text-xs text-white/60 mb-1">ВСЕГО УРОКОВ</p>
+              <p className="text-[10px] sm:text-xs text-white/60 mb-1 flex items-center gap-1.5">
+                <span className="text-base">📚</span> МАТЕРИАЛЫ КУРСА
+              </p>
               <p className="text-3xl sm:text-5xl font-black tracking-tighter" style={{ color: '#e879f9' }}>{totalLessons}</p>
-              <p className="text-[10px] sm:text-xs text-white/40 mt-2">100% практика</p>
+              <p className="text-[10px] sm:text-xs text-white/40 mt-2">уроков в программе</p>
+              <p className="text-[10px] sm:text-xs text-white/40">Курс разбит на 8 модулей</p>
             </div>
             <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-4 sm:p-6 flex flex-col justify-between">
-              <p className="text-[10px] sm:text-xs text-white/60 mb-1">МОДУЛЕЙ</p>
-              <p className="text-3xl sm:text-5xl font-black tracking-tighter">{modules.length}</p>
-              <p className="text-[10px] sm:text-xs text-white/40 mt-2">Ты становишься экспертом</p>
+              <p className="text-[10px] sm:text-xs text-white/60 mb-1 flex items-center gap-1.5">
+                <span className="text-base">💬</span> НАШЕ СООБЩЕСТВО
+              </p>
+              <p className="text-2xl sm:text-4xl font-black tracking-tighter" style={{ color: '#22d3ee' }}>
+                Закрытый Telegram-канал
+              </p>
+              <a 
+                href="https://t.me/nikpavlovv" 
+                target="_blank" 
+                className="text-[10px] sm:text-xs font-bold mt-2 inline-flex items-center gap-1 hover:underline"
+                style={{ color: LIME }}
+              >
+                Перейти в канал ↗
+              </a>
             </div>
           </div>
 
@@ -329,9 +354,41 @@ export default function Dashboard() {
               </div>
             </div>
           ) : (
-            <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-10 text-center">
-              <p className="text-xl sm:text-2xl font-black tracking-tight mb-2">Выбери урок слева 👈</p>
-              <p className="text-white/50">Нажми на модуль, затем на урок — и он откроется прямо здесь.</p>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4 sm:gap-6">
+              {/* Основной приветственный блок */}
+              <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-10">
+                <p className="text-2xl sm:text-3xl font-black tracking-tight mb-3">
+                  Готовы начать обучение?
+                </p>
+                <p className="text-sm sm:text-base text-white/60 leading-relaxed mb-6 max-w-xl">
+                  Вы можете выбрать любой доступный урок в боковом меню слева или нажать кнопку ниже, чтобы начать с самого начала.
+                </p>
+                <button
+                  onClick={() => {
+                    const firstUnlocked = modules.flatMap((m) => 
+                      m.lessons.map((_, idx) => ({ m: m.id, l: idx }))
+                    ).find(({ m, l }) => lessonUnlocked(m, l));
+                    if (firstUnlocked) setOpenLesson(firstUnlocked);
+                  }}
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-black text-black transition-transform hover:scale-[1.02]"
+                  style={{ background: LIME, boxShadow: '0 0 30px rgba(217,242,79,0.3)' }}
+                >
+                  Начать обучение →
+                </button>
+              </div>
+              
+              {/* Декоративный блок-стикер справа */}
+              <div className="hidden lg:flex flex-col items-center justify-center rounded-2xl sm:rounded-3xl border border-white/10 bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] p-6 sm:p-8 min-w-[200px] text-center relative overflow-hidden">
+                <div className="absolute top-2 right-2 text-4xl">💡</div>
+                <p className="text-3xl font-black tracking-tighter mb-2" style={{ color: LIME }}>
+                  УЧИТЕСЬ
+                </p>
+                <div className="text-white/70 text-sm leading-relaxed space-y-0.5">
+                  <p>Учитесь.</p>
+                  <p>Практикуйтесь.</p>
+                  <p>Развивайтесь.</p>
+                </div>
+              </div>
             </div>
           )}
 
