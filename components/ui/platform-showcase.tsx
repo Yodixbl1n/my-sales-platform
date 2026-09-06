@@ -93,7 +93,7 @@ export function PlatformShowcase() {
         </h2>
         <p className="text-white/50 text-base sm:text-lg">Всё в одном месте: уроки, прогресс, тесты</p>
       </div>
-      <ContainerScroll>
+      <ContainerScroll titleComponent={<></>}>
         <DashboardMock />
       </ContainerScroll>
     </section>
