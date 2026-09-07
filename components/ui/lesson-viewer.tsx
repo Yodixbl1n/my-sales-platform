@@ -40,6 +40,9 @@ export function LessonViewer({
           if (j.error?.includes('blocked')) {
             throw new Error('Аккаунт заблокирован. Обратитесь к поддержке.');
           }
+          if (j.locked === true) {
+            throw new Error('LOCKED');
+          }
           throw new Error(j.error || 'Нет доступа к этому уроку');
         }
         if (!r.ok) {

@@ -12,23 +12,35 @@ export async function GET(req) {
     return NextResponse.json({ error: 'Invalid telegram auth' }, { status: 400 });
   }
 
-  const tokenPayload = {
-    id: params.id,
-    first_name: params.first_name,
-    last_name: params.last_name || null,
-    username: params.username || null,
-    auth_date: params.auth_date
-  };
-
-  const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '7d' });
-
   const SUPABASE = createSupabaseClient();
+  
+  // Upsert пользователя (создаём если новый, обновляем если существует)
   await SUPABASE.from('users').upsert({
     id: String(params.id),
     first_name: params.first_name,
     last_name: params.last_name || null,
     username: params.username || null
   });
+
+  // Получаем актуальные данные из БД (включая free и blocked)
+  const { data: existingUser } = await SUPABASE
+    .from('users')
+    .select('id, first_name, last_name, username, free, blocked')
+    .eq('id', String(params.id))
+    .limit(1)
+    .maybeSingle();
+
+  const tokenPayload = {
+    id: params.id,
+    first_name: params.first_name,
+    last_name: params.last_name || null,
+    username: params.username || null,
+    auth_date: params.auth_date,
+    free: existingUser?.free ?? true, // Новые пользователи = free по умолчанию
+    blocked: existingUser?.blocked ?? false,
+  };
+
+  const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '7d' });
 
   const res = NextResponse.redirect(new URL('/dashboard', req.url));
   

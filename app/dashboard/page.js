@@ -16,6 +16,7 @@ export default function Dashboard() {
   const [quizModule, setQuizModule] = useState(null);
   const [upsell, setUpsell] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showUpsell, setShowUpsell] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
 
@@ -66,6 +67,9 @@ export default function Dashboard() {
   };
   const lessonUnlocked = (m, l) => {
     if (!unlocked(m)) return false;
+    // Демо-пользователь: только первый урок модуля 1
+    if (isDemo && (m !== 1 || l !== 0)) return false;
+    // Бесплатный пользователь: первые 5 уроков модуля 1
     if (isFree && (m !== 1 || l > 4)) return false;
     if (l === 0) return true;
     return completedLessons.includes(m + '-' + (l - 1));
@@ -189,14 +193,25 @@ export default function Dashboard() {
                   <div className="ml-4 mt-1 space-y-1">
                     {module.lessons.map((lesson, idx) => {
                       const canOpen = lessonUnlocked(module.id, idx);
-                      if (isFree && module.id === 1 && idx > 4) return null;
+                      // Демо видит все уроки в списке (с замками), free видит первые 5 + замок на остальных
+                      if (isDemo && (module.id !== 1 || idx !== 0)) {
+                        // Демо: показываем все уроки с замком
+                      } else if (isFree && module.id === 1 && idx > 4) {
+                        // Free: показываем с замком
+                      } else if (!isFree && !isDemo && module.id !== 1) {
+                        // Платный: все открыто
+                      }
                       const done = completedLessons.includes(module.id + '-' + idx);
                       const isActive = openLesson && openLesson.m === module.id && openLesson.l === idx;
                       return (
                         <button
                           key={idx}
-                          disabled={!canOpen}
+                          disabled={false}
                           onClick={() => {
+                            if (!canOpen) {
+                              setShowUpsell(true);
+                              return;
+                            }
                             setOpenLesson({ m: module.id, l: idx });
                             setSidebarOpen(false);
                           }}
@@ -204,9 +219,10 @@ export default function Dashboard() {
                           style={{
                             background: isActive ? 'rgba(217,242,79,0.15)' : 'transparent',
                             color: !canOpen ? 'rgba(255,255,255,0.25)' : done ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.85)',
-                            cursor: canOpen ? 'pointer' : 'not-allowed',
+                            cursor: canOpen ? 'pointer' : 'pointer',
                           }}
                         >
+                          {!canOpen && <span style={{ color: LIME, fontSize: '10px' }}>🔒</span>}
                           <span className="flex-shrink-0" style={{ color: done ? LIME : 'inherit' }}>
                             {!canOpen ? '🔒' : done ? '✓' : '○'}
                           </span>
@@ -428,6 +444,20 @@ export default function Dashboard() {
             <p className="text-white/60 mb-6 leading-relaxed">Ты прошёл первые 5 уроков и увидел систему изнутри. Дальше — полная версия: 8 модулей, 75 уроков, тесты и практика.</p>
             <a href="https://t.me/nikpavlovv" target="_blank" className="block px-8 py-4 rounded-full font-black text-black mb-3" style={{ background: LIME }}>Купить продолжение в Telegram</a>
             <button onClick={() => setUpsell(false)} className="mt-2 text-sm text-white/40 underline">Позже</button>
+          </div>
+        </div>
+      )}
+
+      
+      {/* Модалка: Купить курс */}
+      {showUpsell && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.9)' }} onClick={() => setShowUpsell(false)}>
+          <div className="max-w-md w-full rounded-3xl border border-white/10 bg-[#141414] p-8 text-center" onClick={(e) => e.stopPropagation()}>
+            <p className="text-5xl mb-4">🔒</p>
+            <h3 className="text-2xl font-black tracking-tighter mb-3">Этот урок доступен в платной версии</h3>
+            <p className="text-white/60 mb-6 leading-relaxed">Получи полный доступ ко всем 8 модулям, 75 урокам, тестам и практике. Напиши мне в Telegram для покупки.</p>
+            <a href="https://t.me/nikpavlovv" target="_blank" className="block px-8 py-4 rounded-full font-black text-black mb-3" style={{ background: LIME }}>Купить курс → Telegram</a>
+            <button onClick={() => setShowUpsell(false)} className="mt-2 text-sm text-white/40 underline">Закрыть</button>
           </div>
         </div>
       )}
