@@ -12,6 +12,7 @@ export default function AdminPage() {
   const [inviteType, setInviteType] = useState('black');
   const [generatedCode, setGeneratedCode] = useState('');
   const [inviteList, setInviteList] = useState([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     if (authed) {
@@ -105,6 +106,18 @@ export default function AdminPage() {
     fetchUsers();
   };
 
+  const filteredUsers = users.filter((u) => {
+    const q = search.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      (u.first_name || '').toLowerCase().includes(q) ||
+      (u.name || '').toLowerCase().includes(q) ||
+      (u.username || '').toLowerCase().includes(q) ||
+      (u.email || '').toLowerCase().includes(q) ||
+      String(u.id || '').toLowerCase().includes(q)
+    );
+  });
+
   if (!authed) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
@@ -188,7 +201,16 @@ export default function AdminPage() {
         {/* Таблица пользователей */}
         <div className="rounded-2xl border border-white/10 bg-[#141414] overflow-hidden">
           <div className="p-6 border-b border-white/10">
-            <h2 className="text-xl font-bold">👥 Пользователи ({users.length})</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h2 className="text-xl font-bold">👥 Пользователи ({filteredUsers.length})</h2>
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="🔍 Поиск: имя, @ник, email или ID..."
+                className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm w-full sm:w-80 focus:outline-none focus:border-[#d9f24f] transition-colors"
+              />
+            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -205,14 +227,17 @@ export default function AdminPage() {
               <tbody>
                 {loading ? (
                   <tr><td colSpan={6} className="px-6 py-8 text-center text-white/40">Загрузка...</td></tr>
-                ) : users.length === 0 ? (
-                  <tr><td colSpan={6} className="px-6 py-8 text-center text-white/40">Пока нет пользователей</td></tr>
+                ) : filteredUsers.length === 0 ? (
+                  <tr><td colSpan={6} className="px-6 py-8 text-center text-white/40">{search ? '🔍 Ничего не найдено' : 'Пока нет пользователей'}</td></tr>
                 ) : (
-                  users.map((user) => (
+                  filteredUsers.map((user) => (
                     <tr key={user.id} className="border-t border-white/5 hover:bg-white/[0.02]">
                       <td className="px-6 py-4">
                         <div className="font-semibold">{user.first_name || user.name || user.username}</div>
                         <div className="text-xs text-white/40">{user.username ? '@' + user.username : ''}</div>
+                        <div className="text-[10px] text-white/30 font-mono mt-0.5 cursor-pointer hover:text-white/60 transition-colors" title="Скопировать полный ID" onClick={() => navigator.clipboard.writeText(String(user.id))}>
+                          ID: {String(user.id).slice(0, 8)}… 📋
+                        </div>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
