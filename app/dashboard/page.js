@@ -57,6 +57,7 @@ export default function Dashboard() {
   }, []);
 
   const isFree = !!(user && user.free);
+  const isDemo = user?.demo === true;
   const totalLessons = modules.reduce((s, m) => s + m.lessons.length, 0);
   const visibleModules = modules; // Все модули видны как витрина
   const progressPercent = totalLessons ? Math.round((completedLessons.length / totalLessons) * 100) : 0;
