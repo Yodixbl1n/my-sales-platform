@@ -96,6 +96,15 @@ export default function AdminPage() {
     fetchUsers();
   };
 
+  const setPlan = async (userId, free) => {
+    await fetch('/api/admin/set-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, free }),
+    });
+    fetchUsers();
+  };
+
   if (!authed) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
@@ -206,12 +215,21 @@ export default function AdminPage() {
                         <div className="text-xs text-white/40">{user.username ? '@' + user.username : ''}</div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="px-2 py-1 rounded text-xs font-bold" style={{
-                          background: user.free ? 'rgba(255,255,255,0.1)' : LIME,
-                          color: user.free ? '#fff' : '#000'
-                        }}>
-                          {user.free ? 'FREE' : 'BLACK'}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-1 rounded text-xs font-bold" style={{
+                            background: user.free ? 'rgba(255,255,255,0.1)' : LIME,
+                            color: user.free ? '#fff' : '#000'
+                          }}>
+                            {user.free ? 'FREE' : 'BLACK'}
+                          </span>
+                          <button
+                            onClick={() => setPlan(user.id, !user.free)}
+                            className="px-2 py-1 rounded text-xs border border-white/20 hover:bg-white/10 transition-colors"
+                            title={user.free ? 'Дать полный доступ (BLACK)' : 'Сделать бесплатным (FREE)'}
+                          >
+                            {user.free ? '→ BLACK' : '→ FREE'}
+                          </button>
+                        </div>
                       </td>
                       <td className="px-6 py-4 text-sm">
                         {user.progress || 0} / 8 модулей
