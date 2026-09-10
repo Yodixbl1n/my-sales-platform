@@ -15,15 +15,16 @@ const LIME = '#d9f24f';
 import { TiltZone } from '@/components/ui/tilt-zone';
 import { HeroCards3D } from '@/components/ui/hero-cards-3d';
 
+import { AuroraBackground } from '@/components/ui/aurora-background';
+
 export default function Landing() {
   const marqueeItems = ['ПРОДАЖИ', 'ПЕРЕГОВОРЫ', 'ЦЕННОСТЬ', 'ВОЗРАЖЕНИЯ', 'ЗАКРЫТИЕ СДЕЛОК', 'ПРИБЫЛЬ', 'СПИН', 'МЕДДИК', 'НЕЙРОХАКИНГ'];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap'); .bento-serif { font-family: 'Instrument Serif', Georgia, serif; }
-        .emoji-anim { display: inline-block; }
-        [data-tilt]:hover .emoji-anim { animation: emoji-pop 0.7s cubic-bezier(0.34,1.56,0.64,1); }
-        @keyframes emoji-pop { 0%{transform:scale(1) rotate(0deg)} 35%{transform:scale(1.45) rotate(-14deg)} 70%{transform:scale(0.9) rotate(10deg)} 100%{transform:scale(1) rotate(0deg)} }`}</style>
+    <>
+      <AuroraBackground />
+      <div className="relative z-10 min-h-screen bg-[#0a0a0a]/90 text-white overflow-x-hidden">
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap'); .bento-serif { font-family: 'Instrument Serif', Georgia, serif; }`}</style>
       <style>{`@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } } .marquee-track { animation: marquee 25s linear infinite; } @keyframes glowPulse { 0%,100% { text-shadow: 0 0 20px rgba(217,242,79,0.4); } 50% { text-shadow: 0 0 50px rgba(217,242,79,0.9); } } .neon { animation: glowPulse 2.5s ease-in-out infinite; } @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } } .fade-up { animation: fadeUp 0.9s ease-out both; } .fade-up-1 { animation: fadeUp 0.9s ease-out 0.15s both; } .fade-up-2 { animation: fadeUp 0.9s ease-out 0.3s both; } .fade-up-3 { animation: fadeUp 0.9s ease-out 0.45s both; }`}</style>
       
       {/* Header */}
@@ -107,7 +108,7 @@ export default function Landing() {
               <p className="text-white/60 text-sm sm:text-base mt-4 max-w-md leading-relaxed">Контакт → потребность → ценность → цена. Каждый этап разобран по шагам, со скриптами и примерами из реальных сделок.</p>
             </div>
             <div className="flex items-end justify-between mt-6">
-              <span className="text-6xl sm:text-7xl emoji-anim">🎯</span>
+              <span className="text-6xl sm:text-7xl">🎯</span>
               <span className="bento-serif italic text-white/40 text-sm sm:text-base">от первого «алло» до оплаты</span>
             </div>
           </div>
@@ -119,14 +120,14 @@ export default function Landing() {
                 <p className="text-xs tracking-widest text-white/40 mb-2">МОДУЛЬ 07</p>
                 <h3 className="bento-serif text-2xl sm:text-3xl text-white">Нейрохакинг <em className="text-[#c084fc]">продаж</em></h3>
               </div>
-              <span className="text-5xl sm:text-6xl emoji-anim">🧠</span>
+              <span className="text-5xl sm:text-6xl">🧠</span>
             </div>
             <p className="text-white/60 text-sm mt-3 leading-relaxed">Дофаминовые петли, захват амигдалы и эффект собственности — как на самом деле принимает решения мозг клиента.</p>
           </div>
 
           {/* СПИН */}
           <div data-tilt className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
-            <span className="text-4xl emoji-anim">❓</span>
+            <span className="text-4xl">❓</span>
             <div>
               <h3 className="font-bold text-white text-sm sm:text-base">СПИН</h3>
               <p className="text-white/50 text-xs mt-1">Вопросы, которые продают за тебя</p>
@@ -135,7 +136,7 @@ export default function Landing() {
 
           {/* MEDDIC */}
           <div data-tilt className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
-            <span className="text-4xl emoji-anim">🗺️</span>
+            <span className="text-4xl">🗺️</span>
             <div>
               <h3 className="font-bold text-white text-sm sm:text-base">MEDDIC</h3>
               <p className="text-white/50 text-xs mt-1">Квалификация сделки как в enterprise</p>
@@ -162,7 +163,7 @@ export default function Landing() {
 
           {/* Возражения */}
           <div data-tilt className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
-            <span className="text-4xl emoji-anim">🛡️</span>
+            <span className="text-4xl">🛡️</span>
             <div>
               <h3 className="font-bold text-white text-sm sm:text-base">Возражения</h3>
               <p className="text-white/50 text-xs mt-1">«Дорого» и «я подумаю» — формулы</p>
@@ -171,7 +172,7 @@ export default function Landing() {
 
           {/* Белфорт */}
           <div data-tilt className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
-            <span className="text-4xl emoji-anim">🐺</span>
+            <span className="text-4xl">🐺</span>
             <div>
               <h3 className="font-bold text-white text-sm sm:text-base">Белфорт</h3>
               <p className="text-white/50 text-xs mt-1">Прямые продажи и тон-контроль</p>
@@ -192,7 +193,7 @@ export default function Landing() {
                 <p className="text-xs tracking-widest text-white/40 mb-2">МОДУЛЬ 03</p>
                 <h3 className="bento-serif text-2xl sm:text-3xl text-white">Архитектура <em className="text-[#22d3ee]">ценности</em></h3>
               </div>
-              <span className="text-5xl sm:text-6xl emoji-anim">💎</span>
+              <span className="text-5xl sm:text-6xl">💎</span>
             </div>
             <p className="text-white/60 text-sm mt-3 leading-relaxed">Математика ценности и безотказные офферы — клиент сам видит выгоду до того, как услышит цену.</p>
           </div>
@@ -262,5 +263,6 @@ export default function Landing() {
         </div>
       </footer>
     </div>
+      </>
   );
 }
