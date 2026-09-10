@@ -25,7 +25,7 @@ const PLANS = [
       "Базовые скрипты и шаблоны",
     ],
     cta: "Начать бесплатно",
-    href: '/dashboard', onClick: () => { localStorage.setItem('np_plan', 'free'); },
+    href: '/demo', onClick: undefined,
     popular: false,
     highlight: "Идеально для знакомства",
   },

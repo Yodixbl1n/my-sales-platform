@@ -75,6 +75,21 @@ export default function Dashboard() {
     if (l === 0) return true;
     return completedLessons.includes(m + '-' + (l - 1));
   };
+
+  // Почему урок закрыт? 'open' | 'tariff' | 'progress' | 'demo'
+  const getBlockReason = (m, l) => {
+    if (!unlocked(m)) {
+      // Модуль закрыт — проверяем почему
+      if (isDemo && m !== 1) return 'demo';
+      if (isFree && m !== 1) return 'tariff';
+      return 'progress'; // предыдущий модуль не пройден
+    }
+    if (isDemo && (m !== 1 || l !== 0)) return 'demo';
+    if (isFree && (m !== 1 || l > 4)) return 'tariff';
+    if (l === 0) return 'open';
+    if (!completedLessons.includes(m + '-' + (l - 1))) return 'progress';
+    return 'open';
+  };
   const allLessonsDone = (m) => {
     const module = modules.find((mod) => mod.id === m);
     if (!module) return false;
@@ -210,7 +225,13 @@ export default function Dashboard() {
                           disabled={false}
                           onClick={() => {
                             if (!canOpen) {
-                              setShowUpsell(true);
+                              const reason = getBlockReason(module.id, idx);
+                              if (reason === 'tariff' || reason === 'demo') {
+                                setShowUpsell(true);
+                              } else {
+                                setSuccessMsg('Сначала пройди предыдущий урок/модуль ⏸️');
+                                setTimeout(() => setSuccessMsg(null), 3000);
+                              }
                               return;
                             }
                             setOpenLesson({ m: module.id, l: idx });
