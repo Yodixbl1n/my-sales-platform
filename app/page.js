@@ -12,6 +12,9 @@ import Link from 'next/link';
 
 const LIME = '#d9f24f';
 
+import { TiltZone } from '@/components/ui/tilt-zone';
+import { HeroCards3D } from '@/components/ui/hero-cards-3d';
+
 export default function Landing() {
   const marqueeItems = ['ПРОДАЖИ', 'ПЕРЕГОВОРЫ', 'ЦЕННОСТЬ', 'ВОЗРАЖЕНИЯ', 'ЗАКРЫТИЕ СДЕЛОК', 'ПРИБЫЛЬ', 'СПИН', 'МЕДДИК', 'НЕЙРОХАКИНГ'];
 
@@ -59,6 +62,8 @@ export default function Landing() {
         </div>
       </section>
 
+      <HeroCards3D />
+
       {/* Marquee */}
       <div className="py-6 border-y overflow-hidden" style={{ borderColor: 'rgba(217,242,79,0.3)', background: 'rgba(217,242,79,0.05)' }}>
         <div className="marquee-track flex whitespace-nowrap gap-8 w-max">
@@ -86,9 +91,10 @@ export default function Landing() {
           <p className="text-white/40 text-center text-xs sm:text-sm tracking-widest mb-10 sm:mb-16">8 МОДУЛЕЙ • 75 УРОКОВ • 100% ПРАКТИКА</p>
         </Reveal>
 
+        <TiltZone />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 auto-rows-[minmax(150px,auto)]">
           {/* Большая карточка — идея курса */}
-          <div className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-10 flex flex-col justify-between group hover:border-[#d9f24f]/60 transition-colors duration-300">
+          <div data-tilt className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-10 flex flex-col justify-between group hover:border-[#d9f24f]/60 transition-colors duration-300">
             <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20 blur-3xl group-hover:opacity-40 transition-opacity pointer-events-none" style={{ background: 'radial-gradient(circle, #d9f24f 0%, transparent 70%)' }} />
             <div>
               <p className="text-xs tracking-widest text-white/40 mb-4">СИСТЕМА, А НЕ ТАЛАНТ</p>
@@ -104,7 +110,7 @@ export default function Landing() {
           </div>
 
           {/* Нейрохакинг */}
-          <div className="col-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1a1030] to-[#141414] p-6 sm:p-8 group hover:border-[#a855f7]/60 transition-colors duration-300">
+          <div data-tilt className="col-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1a1030] to-[#141414] p-6 sm:p-8 group hover:border-[#a855f7]/60 transition-colors duration-300">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs tracking-widest text-white/40 mb-2">МОДУЛЬ 07</p>
@@ -116,7 +122,7 @@ export default function Landing() {
           </div>
 
           {/* СПИН */}
-          <div className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
+          <div data-tilt className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
             <span className="text-4xl">❓</span>
             <div>
               <h3 className="font-bold text-white text-sm sm:text-base">СПИН</h3>
@@ -125,7 +131,7 @@ export default function Landing() {
           </div>
 
           {/* MEDDIC */}
-          <div className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
+          <div data-tilt className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
             <span className="text-4xl">🗺️</span>
             <div>
               <h3 className="font-bold text-white text-sm sm:text-base">MEDDIC</h3>
@@ -134,7 +140,7 @@ export default function Landing() {
           </div>
 
           {/* Цифры — акцентная лаймовая */}
-          <div className="col-span-2 rounded-3xl border border-[#d9f24f] bg-[#d9f24f] p-6 sm:p-8 text-black flex items-center justify-between gap-4">
+          <div data-tilt className="col-span-2 rounded-3xl border border-[#d9f24f] bg-[#d9f24f] p-6 sm:p-8 text-black flex items-center justify-between gap-4">
             <div className="text-center">
               <p className="text-3xl sm:text-5xl font-black">8</p>
               <p className="text-[10px] sm:text-xs font-bold tracking-widest mt-1">МОДУЛЕЙ</p>
@@ -152,7 +158,7 @@ export default function Landing() {
           </div>
 
           {/* Возражения */}
-          <div className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
+          <div data-tilt className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
             <span className="text-4xl">🛡️</span>
             <div>
               <h3 className="font-bold text-white text-sm sm:text-base">Возражения</h3>
@@ -161,7 +167,7 @@ export default function Landing() {
           </div>
 
           {/* Белфорт */}
-          <div className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
+          <div data-tilt className="col-span-1 rounded-3xl border border-white/10 bg-[#141414] p-5 sm:p-6 group hover:border-[#d9f24f]/60 transition-colors duration-300 flex flex-col justify-between gap-4">
             <span className="text-4xl">🐺</span>
             <div>
               <h3 className="font-bold text-white text-sm sm:text-base">Белфорт</h3>
@@ -170,14 +176,14 @@ export default function Landing() {
           </div>
 
           {/* Цитата */}
-          <div className="col-span-2 rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-8 flex flex-col justify-between group hover:border-[#d9f24f]/60 transition-colors duration-300">
+          <div data-tilt className="col-span-2 rounded-3xl border border-white/10 bg-[#141414] p-6 sm:p-8 flex flex-col justify-between group hover:border-[#d9f24f]/60 transition-colors duration-300">
             <span className="bento-serif italic text-4xl leading-none" style={{ color: LIME }}>“</span>
             <p className="bento-serif text-lg sm:text-2xl text-white/90 leading-snug">Ты больше не уговариваешь — ты предлагаешь решение и спокойно называешь свою цену.</p>
             <p className="text-xs text-white/40 mt-4 tracking-widest">ФИЛОСОФИЯ КУРСА</p>
           </div>
 
           {/* Архитектура ценности */}
-          <div className="col-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0f2027] to-[#141414] p-6 sm:p-8 group hover:border-[#22d3ee]/60 transition-colors duration-300">
+          <div data-tilt className="col-span-2 relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0f2027] to-[#141414] p-6 sm:p-8 group hover:border-[#22d3ee]/60 transition-colors duration-300">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs tracking-widest text-white/40 mb-2">МОДУЛЬ 03</p>
